@@ -1,0 +1,3394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPtLDV MATH TRAIL — Explore • Visualize • Solve</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --primary-dark: #172554;
+      --accent: #0d9488;
+      --accent-light: #14b8a6;
+      --accent-warm: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --purple: #8b5cf6;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--primary-dark);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    p { color: #334155; }
+
+    /* RAPI & INDAH: MATH EQUATION TANPA SIMBOL ANEH */
+    .math-eq {
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 1.05em;
+      color: #1e3a8a;
+      background: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #bfdbfe;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .math-block {
+      display: block;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.15em;
+      text-align: center;
+      background: #f0fdfa;
+      border: 1.5px solid #99f6e4;
+      border-radius: var(--radius-md);
+      color: #0f766e;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 2px 8px rgba(30, 58, 138, 0.25);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.35);
+    }
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: white;
+      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+    }
+    .btn-accent:hover { background: linear-gradient(135deg, #0f766e, var(--accent)); }
+    .btn-outline {
+      background: white;
+      border: 1.5px solid var(--border-dark);
+      color: #334155;
+    }
+    .btn-outline:hover {
+      background: #f1f5f9;
+      border-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+    }
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border-radius: var(--radius-lg);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .badge-primary { background: #dbeafe; color: #1e40af; }
+    .badge-accent { background: #ccfbf1; color: #0f766e; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-purple { background: #ede9fe; color: #6d28d9; }
+
+    .navbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.3rem;
+      box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
+    }
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .brand-text span {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nav-user-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .user-pill {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-tutor-btn {
+      background: #eff6ff;
+      border: 1.5px solid #3b82f6;
+      color: #1e40af;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .nav-tutor-btn:hover {
+      background: #dbeafe;
+      transform: translateY(-1px);
+    }
+
+    .app-main {
+      flex: 1;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light));
+      border-radius: var(--radius-full);
+      transition: width 0.4s ease;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+    }
+    .section-header h2 {
+      font-size: 1.75rem;
+      margin-bottom: 6px;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      border: none;
+      background: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      position: relative;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: var(--primary);
+      background: #f1f5f9;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      font-weight: 700;
+      background: #eff6ff;
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .callout {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      margin: 16px 0;
+      border-left: 4px solid var(--primary);
+      background: #f0fdfa;
+    }
+    .callout.info {
+      border-color: var(--primary-light);
+      background: #eff6ff;
+    }
+    .callout.warning {
+      border-color: var(--warning);
+      background: #fffbeb;
+    }
+    .callout.success {
+      border-color: var(--success);
+      background: #ecfdf5;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    .graph-canvas-box {
+      background: white;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .canvas-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #f8fafc;
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-dark);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    textarea.form-control {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .hint-container {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hint-btn {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .hint-btn:hover { background: #fef3c7; }
+    .hint-content {
+      background: #fffdf5;
+      border: 1px dashed #f59e0b;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      color: #78350f;
+      display: none;
+    }
+    .hint-content.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .feedback-banner {
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      margin-top: 14px;
+      display: none;
+      font-size: 0.92rem;
+    }
+    .feedback-banner.correct {
+      background: #ecfdf5;
+      border: 1.5px solid #10b981;
+      color: #065f46;
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    .feedback-banner.wrong {
+      background: #fef2f2;
+      border: 1.5px solid #ef4444;
+      color: #991b1b;
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-box {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 620px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-overlay.active .modal-box {
+      transform: translateY(0);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+    .close-modal {
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CHAT BOX STYLES */
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 340px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-bubble {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .chat-bubble.student {
+      align-self: flex-end;
+      background: var(--primary-light);
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-bubble.teacher {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid var(--border);
+      color: #1e293b;
+      border-bottom-left-radius: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+    .chat-meta {
+      font-size: 0.72rem;
+      opacity: 0.75;
+      margin-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .chat-input-bar {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+
+    footer {
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 24px 20px;
+      margin-top: auto;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
+
+    .trail-phases {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .trail-phase-item {
+      background: #f1f5f9;
+      padding: 8px 4px;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 3px solid #cbd5e1;
+    }
+    .trail-phase-item.current {
+      background: #eff6ff;
+      color: var(--primary);
+      border-top-color: var(--primary-light);
+    }
+    @media (max-width: 768px) {
+      .trail-phases { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .badge-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .badge-card.earned {
+      border-color: #f59e0b;
+      background: linear-gradient(180deg, #fffbeb, #ffffff);
+    }
+    .badge-card.locked {
+      opacity: 0.5;
+      filter: grayscale(1);
+    }
+    .badge-icon {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .pos-banner {
+      background: linear-gradient(135deg, #0f766e, #0d9488);
+      color: white;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" onclick="switchSection('dashboard')">
+        <div class="brand-icon">📐</div>
+        <div class="brand-text">
+          <h1>SPtLDV MATH TRAIL</h1>
+          <span>Explore • Visualize • Solve</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="nav-user-info" id="navUserInfo" style="display: none;">
+          <div class="user-pill">
+            <span id="navStudentName">Siswa</span> | 
+            <span id="navStudentClass" style="color: var(--accent);">X-1</span> | 
+            <span id="navStudentGroup" style="color: var(--primary-light);">Kel. 1</span> |
+            <span id="navAssignedPos" class="badge badge-accent" style="margin-left: 4px;">POS 1</span>
+          </div>
+          <button class="nav-tutor-btn" onclick="openTutorModal()">
+            💬 Chat Tutor Guru
+          </button>
+        </div>
+        <button class="btn btn-sm btn-outline" style="background: #f8fafc; border-color: #cbd5e1; font-weight: 700; color: #1e3a8a;" onclick="switchSection('teacher')">
+          👨‍🏫 Mode Guru / Admin
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-main">
+
+    <!-- 1. HALAMAN AWAL / ONBOARDING -->
+    <div id="section-welcome" class="fade-in">
+      <div style="max-width: 760px; margin: 30px auto; text-align: center;">
+        
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: #eff6ff; color: var(--primary); padding: 8px 18px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; margin-bottom: 16px; border: 1px solid #bfdbfe;">
+          🎒 Media Pembelajaran Matematika Kelas X SMA
+        </div>
+
+        <h1 style="font-size: 2.5rem; margin-bottom: 12px; color: var(--primary-dark);">
+          SPtLDV MATH TRAIL
+        </h1>
+        <p style="font-size: 1.2rem; font-weight: 600; color: var(--accent); margin-bottom: 6px;">
+          Explore • Visualize • Solve
+        </p>
+        <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 30px;">
+          Temukan Matematika di Sekitarmu! Pelajari Sistem Pertidaksamaan Linear Dua Variabel melalui observasi nyata di <strong>3 Pos Lingkungan Sekolah</strong>.
+        </p>
+
+        <!-- SVG HERO ILLUSTRATION (3 POS SEKOLAH) -->
+        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 30px; box-shadow: var(--shadow-sm);">
+          <svg viewBox="0 0 600 220" style="width: 100%; height: auto; max-height: 220px;">
+            <defs>
+              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#eff6ff" />
+                <stop offset="100%" stop-color="#dbeafe" />
+              </linearGradient>
+              <linearGradient id="regionFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#0d9488" stop-opacity="0.2" />
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="600" height="220" rx="12" fill="url(#skyGrad)"/>
+            
+            <!-- School Building -->
+            <rect x="40" y="60" width="130" height="130" fill="#94a3b8" rx="4"/>
+            <polygon points="30,60 105,15 180,60" fill="#dc2626"/>
+            <rect x="85" y="125" width="40" height="65" fill="#475569"/>
+            <rect x="55" y="75" width="22" height="22" fill="#f8fafc"/>
+            <rect x="135" y="75" width="22" height="22" fill="#f8fafc"/>
+            <line x1="105" y1="15" x2="105" y2="3" stroke="#334155" stroke-width="2.5"/>
+            <polygon points="105,3 125,9 105,15" fill="#ef4444"/>
+
+            <!-- Route Path Connecting 3 Pos -->
+            <path d="M 210 160 C 260 160, 270 90, 330 90 S 400 160, 460 140" fill="none" stroke="#f59e0b" stroke-width="4" stroke-dasharray="6 5"/>
+
+            <!-- POS 1: Kantin (2 Kelompok) -->
+            <circle cx="210" cy="160" r="16" fill="#3b82f6"/>
+            <text x="210" y="165" fill="white" font-size="12" font-weight="bold" text-anchor="middle">1</text>
+            <text x="210" y="190" fill="#1e3a8a" font-size="11" font-weight="bold" text-anchor="middle">POS 1: Kantin</text>
+            <text x="210" y="204" fill="#64748b" font-size="9" text-anchor="middle">(2 Kelompok)</text>
+
+            <!-- POS 2: Koperasi (2 Kelompok) -->
+            <circle cx="330" cy="90" r="16" fill="#0d9488"/>
+            <text x="330" y="95" fill="white" font-size="12" font-weight="bold" text-anchor="middle">2</text>
+            <text x="330" y="70" fill="#0f766e" font-size="11" font-weight="bold" text-anchor="middle">POS 2: Koperasi</text>
+            <text x="330" y="56" fill="#64748b" font-size="9" text-anchor="middle">(2 Kelompok)</text>
+
+            <!-- POS 3: Lapangan (2 Kelompok) -->
+            <circle cx="460" cy="140" r="16" fill="#8b5cf6"/>
+            <text x="460" y="145" fill="white" font-size="12" font-weight="bold" text-anchor="middle">3</text>
+            <text x="460" y="170" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">POS 3: Lapangan</text>
+            <text x="460" y="184" fill="#64748b" font-size="9" text-anchor="middle">(2 Kelompok)</text>
+
+            <!-- Math Mini Graph -->
+            <g transform="translate(500, 20)">
+              <rect x="0" y="0" width="85" height="85" fill="white" stroke="#cbd5e1" rx="6"/>
+              <line x1="8" y1="75" x2="78" y2="75" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="8" y1="75" x2="8" y2="10" stroke="#64748b" stroke-width="1.5"/>
+              <polygon points="8,75 8,25 45,50 65,75" fill="url(#regionFill)"/>
+              <line x1="8" y1="25" x2="72" y2="65" stroke="#ef4444" stroke-width="2"/>
+              <circle cx="30" cy="58" r="2.5" fill="#0d9488"/>
+              <text x="35" y="56" font-size="8" font-weight="bold" fill="#0d9488">DP</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- FORM IDENTITAS SISWA -->
+        <div class="card" style="text-align: left;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 14px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px;">
+            📝 Masukkan Identitas Tim
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+            Terdapat <strong>3 pos observasi</strong> di sekolah. Masing-masing pos ditugaskan kepada <strong>2 kelompok</strong> secara acak dan seimbang (total 6 kelompok). Masukkan identitas timmu untuk mengetahui pos tugasmu!
+          </p>
+
+          <form id="onboardingForm" onsubmit="handleStartApp(event)">
+            <div class="grid-3">
+              <div class="form-group">
+                <label for="studentNameInput">Nama Lengkap Siswa / Ketua *</label>
+                <input type="text" id="studentNameInput" class="form-control" placeholder="Contoh: Budi Santoso" required>
+              </div>
+              <div class="form-group">
+                <label for="studentClassInput">Kelas (Ketik Bebas) *</label>
+                <input type="text" id="studentClassInput" class="form-control" placeholder="Contoh: X-1 / X-A / X MIPA 2" required>
+              </div>
+              <div class="form-group">
+                <label for="studentGroupInput">Pilih Nomor Kelompok (1 s/d 6) *</label>
+                <select id="studentGroupInput" class="form-control" required>
+                  <option value="">Pilih Kelompok...</option>
+                  <option value="Kelompok 1">Kelompok 1</option>
+                  <option value="Kelompok 2">Kelompok 2</option>
+                  <option value="Kelompok 3">Kelompok 3</option>
+                  <option value="Kelompok 4">Kelompok 4</option>
+                  <option value="Kelompok 5">Kelompok 5</option>
+                  <option value="Kelompok 6">Kelompok 6</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
+              <button type="button" class="btn btn-outline" onclick="switchSection('teacher')">
+                👨‍🏫 Masuk Mode Guru / Pengajar
+              </button>
+              <button type="submit" class="btn btn-primary btn-lg">
+                🚀 MULAI MATH TRAIL
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2. DASHBOARD SISWA & LEVEL SECTIONS WRAPPER -->
+    <div id="section-app-container" style="display: none;">
+      
+      <!-- SUB-NAVIGATION TABS (Menu Lengkap) -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">
+          📊 Dashboard
+        </button>
+        <button class="tab-btn" onclick="switchTab('level0')">
+          🌱 Level 0: Get Ready
+        </button>
+        <button class="tab-btn" onclick="switchTab('level1')">
+          📏 Level 1: Draw the Line
+        </button>
+        <button class="tab-btn" onclick="switchTab('level2')">
+          🎨 Level 2: Find the Region
+        </button>
+        <button class="tab-btn" onclick="switchTab('level3')">
+          ⚔️ Level 3: Intersection
+        </button>
+        <button class="tab-btn" onclick="switchTab('geogebra')">
+          📈 GeoGebra Lab
+        </button>
+        <button class="tab-btn" onclick="switchTab('mathtrail')" style="color: #0f766e; font-weight: 700;">
+          🗺️ Math Trail (Pos Misi)
+        </button>
+        <button class="tab-btn" onclick="switchTab('presentation')">
+          📤 Presentasi
+        </button>
+        <button class="tab-btn" onclick="switchTab('finalproduct')">
+          🎯 Produk Akhir
+        </button>
+        <button class="tab-btn" onclick="switchTab('reflection')">
+          📝 Refleksi
+        </button>
+        <button class="tab-btn" onclick="switchTab('challenge')">
+          🔥 Master Challenge
+        </button>
+        <button class="tab-btn" onclick="switchTab('results')">
+          🏆 Hasil Saya
+        </button>
+        <button class="tab-btn" onclick="switchTab('teacher')">
+          👨‍🏫 Guru / Admin
+        </button>
+      </nav>
+
+      <!-- TAB: DASHBOARD -->
+      <div id="tab-dashboard" class="tab-content fade-in">
+        
+        <!-- PENGUMUMAN POS KELOMPOK -->
+        <div class="pos-banner">
+          <div>
+            <span class="badge" style="background: rgba(255,255,255,0.25); color: white; margin-bottom: 6px;">
+              📍 PENUGASAN LOKASI POS ANDA
+            </span>
+            <h2 style="color: white; font-size: 1.6rem; margin: 4px 0;" id="dashBannerPosTitle">
+              Kelompok Anda Ditugaskan di: POS 1 — KANTIN SEKOLAH
+            </h2>
+            <p style="color: #ccfbf1; font-size: 0.95rem;" id="dashBannerPosDetail">
+              1 kelompok hanya mendatangi 1 pos ini bersama rekan kelompok mitramu. Kumpulkan data nyata dan selesaikan model SPtLDV!
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="switchTab('mathtrail')">
+            Langsung Buka Misi Pos →
+          </button>
+        </div>
+
+        <div class="card" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <span class="badge" style="background: rgba(255,255,255,0.2); color: white; margin-bottom: 8px;">
+                Selamat Datang Pejuang Matematika!
+              </span>
+              <h2 style="color: white; font-size: 1.8rem; margin: 4px 0 8px;" id="dashWelcomeName">Halo, Siswa</h2>
+              <p style="color: #dbeafe; font-size: 0.95rem; max-width: 600px;">
+                Kuasai konsep garis batas, titik uji, dan irisan Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV), lalu selesaikan tantangan di pos sekolahmu. Butuh bantuan? Gunakan tombol <strong>💬 Chat Tutor Guru</strong> kapan saja!
+              </p>
+            </div>
+            <div style="text-align: right; background: rgba(255,255,255,0.15); padding: 14px 20px; border-radius: var(--radius-md); backdrop-filter: blur(4px);">
+              <div style="font-size: 0.85rem; color: #bfdbfe;">Total XP Diperoleh</div>
+              <div style="font-size: 2rem; font-weight: 800; color: #fde047;" id="dashXP">0 XP</div>
+              <div style="font-size: 0.8rem; color: #e2e8f0;" id="dashLevelTitle">Pangkat: Beginner Explorer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROGRESS BELAJAR OVERVIEW -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🚀 Progres Pembelajaran SPtLDV</h3>
+            <span class="badge badge-primary" id="dashProgressPercent">0% Selesai</span>
+          </div>
+          <div class="progress-bar-container" style="margin-bottom: 20px;">
+            <div class="progress-bar-fill" id="dashProgressBar" style="width: 0%;"></div>
+          </div>
+
+          <div class="grid-3">
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-accent">Level 0</span>
+                <span id="dashStatusL0" class="badge badge-warning">Tersedia</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px;">Get Ready</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Memahami variabel, koefisien, konstanta & makna batasan nyata.
+              </p>
+              <button class="btn btn-sm btn-outline" style="width: 100%;" onclick="switchTab('level0')">Buka Materi →</button>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-accent">Level 1</span>
+                <span id="dashStatusL1" class="badge badge-warning">Tersedia</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px;">Draw the Line</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Membuat garis batas, 2 titik potong sumbu, & jenis garis tegas/putus.
+              </p>
+              <button class="btn btn-sm btn-outline" style="width: 100%;" onclick="switchTab('level1')">Buka Materi →</button>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-accent">Level 2</span>
+                <span id="dashStatusL2" class="badge badge-warning">Tersedia</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px;">Find the Region</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Uji titik (x, y), arsiran daerah penyelesaian (DP), dan interpretasi.
+              </p>
+              <button class="btn btn-sm btn-outline" style="width: 100%;" onclick="switchTab('level2')">Buka Materi →</button>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-accent">Level 3</span>
+                <span id="dashStatusL3" class="badge badge-warning">Tersedia</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px;">Find the Intersection</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Sistem 2+ pertidaksamaan, mencari irisan daerah penyelesaian simultan.
+              </p>
+              <button class="btn btn-sm btn-outline" style="width: 100%;" onclick="switchTab('level3')">Buka Materi →</button>
+            </div>
+
+            <div style="background: #f0fdfa; border: 1.5px solid var(--accent-light); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-accent" style="background: var(--accent); color: white;">Misi Pos Anda</span>
+                <span id="dashStatusTrail" class="badge badge-warning">Belum Selesai</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px; color: #0f766e;" id="dashCardPosName">🗺️ Misi Pos</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Observasi data nyata di pos khusus kelompokmu dan formulasikan SPtLDV.
+              </p>
+              <button class="btn btn-sm btn-accent" style="width: 100%;" onclick="switchTab('mathtrail')">Kerjakan Misi Pos →</button>
+            </div>
+
+            <div style="background: #fffbeb; border: 1.5px solid var(--accent-warm); border-radius: var(--radius-md); padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge badge-warning">Evaluasi</span>
+                <span id="dashStatusMaster" class="badge badge-warning">Belum Mulai</span>
+              </div>
+              <h4 style="font-size: 1rem; margin-bottom: 4px; color: #92400e;">🔥 Master Challenge</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                Uji komprehensif konsep garis batas, titik uji, SPtLDV dan masalah nyata.
+              </p>
+              <button class="btn btn-sm btn-outline" style="width: 100%;" onclick="switchTab('challenge')">Ikuti Ujian →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BADGES & STATUS TIM -->
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom: 14px;">🏅 Lencana Prestasi (Badges)</h3>
+            <div class="grid-3" id="badgesContainer">
+              <div class="badge-card locked" id="badge-line">
+                <div class="badge-icon">📏</div>
+                <div style="font-weight: 700; font-size: 0.85rem;">Line Explorer</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Selesaikan Level 1</div>
+              </div>
+              <div class="badge-card locked" id="badge-region">
+                <div class="badge-icon">🎨</div>
+                <div style="font-weight: 700; font-size: 0.85rem;">Region Finder</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Selesaikan Level 2</div>
+              </div>
+              <div class="badge-card locked" id="badge-trail">
+                <div class="badge-icon">🗺️</div>
+                <div style="font-weight: 700; font-size: 0.85rem;">Trail Explorer</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Selesaikan Misi Pos</div>
+              </div>
+              <div class="badge-card locked" id="badge-solver">
+                <div class="badge-icon">⚡</div>
+                <div style="font-weight: 700; font-size: 0.85rem;">SPtLDV Solver</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Selesaikan Level 3</div>
+              </div>
+              <div class="badge-card locked" id="badge-master">
+                <div class="badge-icon">👑</div>
+                <div style="font-weight: 700; font-size: 0.85rem;">Master of SPtLDV</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Skor Master ≥ 80</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom: 14px;">📌 Ringkasan Status Tim</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span style="color: var(--text-muted);">Kelompok & Kelas:</span>
+                <strong id="dashSumTeam">Kelompok 1 (X-1)</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span style="color: var(--text-muted);">Tugas Pos Observasi:</span>
+                <span id="dashSumAssignedPos" style="font-weight: 700; color: var(--accent);">POS 1 — KANTIN SEKOLAH</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span style="color: var(--text-muted);">Kelompok Lain di Pos Ini:</span>
+                <span id="dashSumPartnerGroup" style="font-weight: 600; color: var(--primary);">Kelompok 2</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span style="color: var(--text-muted);">Layanan Chat Tutor Guru:</span>
+                <span class="badge badge-success">Aktif & Siap Menjawab</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 16px; display: flex; gap: 10px;">
+              <button class="btn btn-sm btn-outline" onclick="switchTab('results')">Lihat Rekap Nilai</button>
+              <button class="btn btn-sm btn-outline" onclick="switchTab('reflection')">Tulis Refleksi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LEVEL 0 — GET READY -->
+      <div id="tab-level0" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Level 0</span>
+          <h2>🌱 Get Ready — Memahami Batasan Nyata</h2>
+          <p>Sebelum menulis rumus, mari kita pahami: <em>"Apa yang sebenarnya sedang dibatasi dalam kehidupan sehari-hari?"</em></p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">🔍 Apa Itu Pertidaksamaan Linear Dua Variabel?</h3>
+            <p style="margin-top: 10px;">
+              Dalam dunia nyata, kita jarang berurusan dengan tanda sama dengan persis (=). Uang saku kita punya batas maksimal, kapasitas ruangan ada batas daya tampung, dan waktu belajar kita terbatas.
+            </p>
+
+            <div class="callout info">
+              <strong>Bentuk Umum PtLDV:</strong><br>
+              • <span class="math-eq">ax + by ≤ c</span><br>
+              • <span class="math-eq">ax + by &lt; c</span><br>
+              • <span class="math-eq">ax + by ≥ c</span><br>
+              • <span class="math-eq">ax + by &gt; c</span><br>
+              <em>Keterangan:</em> <span class="math-eq">x</span> dan <span class="math-eq">y</span> adalah variabel; <span class="math-eq">a</span> dan <span class="math-eq">b</span> adalah koefisien; <span class="math-eq">c</span> adalah konstanta pembatas.
+            </div>
+
+            <h4 style="margin: 16px 0 8px;">Contoh Kontekstual Kantin:</h4>
+            <p>
+              Bayangkan kamu membawa uang saku <strong>Rp20.000</strong> ke kantin sekolah.
+              Kamu ingin membeli:
+            </p>
+            <ul style="padding-left: 20px; margin: 8px 0; color: #334155;">
+              <li>Roti bakar seharga <strong>Rp4.000 / buah</strong> (<span class="math-eq">x</span>)</li>
+              <li>Es teh jumbo seharga <strong>Rp2.000 / gelas</strong> (<span class="math-eq">y</span>)</li>
+            </ul>
+            <p>
+              Pertanyaan filosofisnya: <strong>Apakah kamu harus menghabiskan uang pas Rp20.000?</strong> Tentu tidak! Kamu boleh belanja kurang dari Rp20.000, asalkan <strong>tidak melebihi</strong> anggaran.
+            </p>
+            <div class="callout warning">
+              <strong>Model Matematika:</strong><br>
+              <div class="math-block">4.000x + 2.000y ≤ 20.000 &nbsp;→&nbsp; 2x + y ≤ 10, dengan x ≥ 0, y ≥ 0</div>
+            </div>
+          </div>
+
+          <!-- LATIHAN INTERAKTIF LEVEL 0 -->
+          <div class="card">
+            <h3 class="card-title">🧠 Latihan Konseptual Level 0</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+              Pilihlah analisis yang tepat untuk situasi kontekstual di bawah ini.
+            </p>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px;">
+              <strong style="color: var(--primary-dark);">Kasus Koperasi Sekolah:</strong>
+              <p style="font-size: 0.9rem; margin-top: 6px;">
+                Pak Guru meminta panitia kelas membeli buku tulis (<span class="math-eq">x</span>) seharga Rp5.000 dan pulpen (<span class="math-eq">y</span>) seharga Rp3.000. Dana kas kelas yang disediakan <strong>paling banyak</strong> Rp60.000. Panitia juga wajib membawa <strong>minimal</strong> 10 barang total agar cukup dibagikan ke siswa berprestasi.
+              </p>
+              
+              <div style="margin-top: 14px;">
+                <label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 8px;">
+                  Manakah sistem pertidaksamaan yang tepat merepresentasikan situasi di atas?
+                </label>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                    <input type="radio" name="l0_opt" value="A">
+                    <span>A. <span class="math-eq">5x + 3y ≥ 60</span> dan <span class="math-eq">x + y ≤ 10</span></span>
+                  </label>
+                  <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                    <input type="radio" name="l0_opt" value="B">
+                    <span>B. <span class="math-eq">5x + 3y ≤ 60</span> dan <span class="math-eq">x + y ≥ 10</span>, dengan <span class="math-eq">x, y ≥ 0</span></span>
+                  </label>
+                  <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                    <input type="radio" name="l0_opt" value="C">
+                    <span>C. <span class="math-eq">5x + 3y = 60</span> dan <span class="math-eq">x + y = 10</span></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- HINT SYSTEM -->
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="toggleHint('l0_hint1')">
+                  💡 Hint 1: Kata Kunci Pembatas ▾
+                </button>
+                <div id="l0_hint1" class="hint-content">
+                  Perhatikan kata "<strong>paling banyak</strong>" artinya nilai tidak boleh lebih besar dari batas (≤), sedangkan "<strong>minimal</strong>" artinya nilai harus sama dengan atau lebih besar dari batas (≥).
+                </div>
+
+                <button type="button" class="hint-btn" onclick="toggleHint('l0_hint2')">
+                  💡 Hint 2: Dua Objek Berbeda ▾
+                </button>
+                <div id="l0_hint2" class="hint-content">
+                  Ada dua batasan berbeda: Batasan Anggaran Kas (<span class="math-eq">5.000x + 3.000y ≤ 60.000</span>) dan Batasan Kuantitas Fisik Barang (<span class="math-eq">x + y ≥ 10</span>).
+                </div>
+              </div>
+
+              <div style="margin-top: 14px; display: flex; gap: 10px;">
+                <button class="btn btn-primary btn-sm" onclick="checkLevel0Quiz()">Periksa Jawaban</button>
+              </div>
+
+              <div id="l0_feedback" class="feedback-banner"></div>
+            </div>
+
+            <div style="background: #eff6ff; padding: 14px; border-radius: var(--radius-md);">
+              <h4 style="font-size: 0.95rem; color: var(--primary);">🤔 Pertanyaan Kritis:</h4>
+              <p style="font-size: 0.85rem; margin-top: 4px;">
+                "Mengapa dalam masalah nyata di sekolah kita hampir selalu menambahkan syarat <span class="math-eq">x ≥ 0</span> dan <span class="math-eq">y ≥ 0</span>?"
+              </p>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+                <em>Jawaban: Karena kuantitas fisik benda (makanan, minuman, buku) tidak mungkin bernilai negatif di dunia nyata!</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LEVEL 1 — DRAW THE LINE -->
+      <div id="tab-level1" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Level 1</span>
+          <h2>📏 Draw the Line — Memahami Garis Batas</h2>
+          <p>Garis batas membagi bidang koordinat Kartesius menjadi dua bagian. Mari pelajari cara menggambar dan jenis garisnya!</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">📐 Langkah Menentukan Garis Batas</h3>
+            <ol style="padding-left: 20px; margin: 12px 0; color: #334155; line-height: 1.8;">
+              <li><strong>Ubah tanda ketidaksamaan menjadi sama dengan (=).</strong><br>
+                  Contoh: Dari <span class="math-eq">2x + y ≤ 8</span> menjadi persamaan garis batas <span class="math-eq">2x + y = 8</span>.</li>
+              <li><strong>Tentukan titik potong sumbu-X</strong> (saat <span class="math-eq">y = 0</span>):<br>
+                  <span class="math-eq">2x + 0 = 8 → x = 4</span>. Diperoleh titik potong (4, 0).</li>
+              <li><strong>Tentukan titik potong sumbu-Y</strong> (saat <span class="math-eq">x = 0</span>):<br>
+                  <span class="math-eq">2(0) + y = 8 → y = 8</span>. Diperoleh titik potong (0, 8).</li>
+              <li><strong>Tarik garis lurus</strong> melalui kedua titik tersebut.</li>
+            </ol>
+
+            <div class="callout warning">
+              <strong>⚠️ Perbedaan Jenis Garis Batas:</strong><br>
+              • <strong>Garis Penuh (Solid):</strong> Digunakan untuk tanda ≤ atau ≥. Artinya titik-titik tepat di sepanjang garis merupakan bagian dari penyelesaian.<br>
+              • <strong>Garis Putus-Putus (Dashed):</strong> Digunakan untuk tanda ketidaksamaan murni (&lt; atau &gt;). Artinya titik tepat di garis batas <em>TIDAK</em> termasuk penyelesaian.
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <h4 style="font-size: 0.95rem; margin-bottom: 8px;">Uji Cepat Pemahaman:</h4>
+              <p style="font-size: 0.88rem; margin-bottom: 10px;">
+                Jika pertidaksamaannya adalah <span class="math-eq">3x + 4y &gt; 12</span>, jenis garis apa yang harus digambar?
+              </p>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn btn-sm btn-outline" onclick="checkL1LineType('solid')">Garis Penuh (Solid)</button>
+                <button class="btn btn-sm btn-outline" onclick="checkL1LineType('dashed')">Garis Putus-Putus (Dashed)</button>
+              </div>
+              <div id="l1_type_feedback" style="margin-top: 10px; font-size: 0.88rem; font-weight: 600;"></div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR KANVAS LEVEL 1 -->
+          <div class="card">
+            <h3 class="card-title">📊 Eksplorasi Visual Garis Batas</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+              Pilih koefisien untuk melihat garis batas terbentuk secara otomatis pada bidang koordinat.
+            </p>
+
+            <div class="graph-canvas-box">
+              <canvas id="canvasL1" width="460" height="340" style="max-width: 100%; height: auto;"></canvas>
+              <div class="canvas-controls">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem;">
+                  <span>Garis:</span>
+                  <strong><span id="l1_eq_label">2x + y ≤ 8</span></strong>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-sm btn-primary" onclick="setL1Preset(2, 1, 8, false)">2x + y ≤ 8 (Solid)</button>
+                  <button class="btn btn-sm btn-outline" onclick="setL1Preset(1, 1, 6, true)">x + y &lt; 6 (Putus)</button>
+                  <button class="btn btn-sm btn-outline" onclick="setL1Preset(3, 2, 12, false)">3x + 2y ≥ 12</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; font-size: 0.85rem; color: #475569; background: #eff6ff; padding: 10px 14px; border-radius: var(--radius-md);">
+              💡 <strong>Amati:</strong> Titik potong sumbu X & Y dihitung otomatis: (c/a, 0) dan (0, c/b). Garis ditarik menghubungkan kedua titik tersebut!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LEVEL 2 — FIND THE REGION -->
+      <div id="tab-level2" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Level 2</span>
+          <h2>🎨 Find the Region — Menentukan Daerah Penyelesaian</h2>
+          <p>Jangan hanya menghafal "kurang dari arsir ke bawah". Pahami metode <strong>Titik Uji</strong>!</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">🎯 Metode Titik Uji (Test Point)</h3>
+            <p style="margin: 10px 0;">
+              Untuk mengetahui sisi mana yang harus diarsir sebagai <strong>Daerah Penyelesaian (DP)</strong>:
+            </p>
+            <ol style="padding-left: 20px; line-height: 1.8; color: #334155;">
+              <li>Pilih sebuah titik sembarang yang <strong>tidak berada di atas garis batas</strong>. Titik paling mudah adalah titik asal (0, 0).</li>
+              <li>Substitusikan nilai <span class="math-eq">x = 0</span> dan <span class="math-eq">y = 0</span> ke pertidaksamaan.</li>
+              <li>Cek kebenaran pernyataan:
+                <ul style="padding-left: 20px; margin-top: 4px;">
+                  <li>Jika bernilai <strong>BENAR</strong>, maka daerah yang memuat titik (0, 0) adalah Daerah Penyelesaian.</li>
+                  <li>Jika bernilai <strong>SALAH</strong>, maka daerah di seberang titik (0, 0) adalah Daerah Penyelesaian.</li>
+                </ul>
+              </li>
+            </ol>
+
+            <div class="callout success">
+              <strong>Contoh Nyata: <span class="math-eq">2x + 3y ≤ 12</span></strong><br>
+              Uji titik (0, 0):<br>
+              <div class="math-block">2(0) + 3(0) ≤ 12 &nbsp;→&nbsp; 0 ≤ 12 &nbsp;(BENAR!)</div>
+              Karena bernilai benar, maka sisi bidang koordinat yang memuat titik (0, 0) diarsir sebagai daerah penyelesaian!
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <h4 style="font-size: 0.95rem; margin-bottom: 8px;">Coba Uji Titik Sendiri pada <span class="math-eq">2x + 3y ≤ 12</span>:</h4>
+              <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px;">
+                <label>x:</label>
+                <input type="number" id="testPtX" value="2" class="form-control" style="width: 70px;">
+                <label>y:</label>
+                <input type="number" id="testPtY" value="1" class="form-control" style="width: 70px;">
+                <button class="btn btn-sm btn-primary" onclick="evaluateTestPoint()">Substitusi & Cek</button>
+              </div>
+              <div id="testPtResult" style="font-size: 0.9rem; font-weight: 600;"></div>
+            </div>
+          </div>
+
+          <!-- KANVAS LEVEL 2 DENGAN ARSIRAN -->
+          <div class="card">
+            <h3 class="card-title">📈 Visualisasi Arsiran Daerah Penyelesaian</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+              Klik tombol di bawah untuk mengubah tanda pertidaksamaan dan amati pergeseran daerah yang diarsir.
+            </p>
+
+            <div class="graph-canvas-box">
+              <canvas id="canvasL2" width="460" height="340" style="max-width: 100%; height: auto;"></canvas>
+              <div class="canvas-controls">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                  <button class="btn btn-sm btn-primary" onclick="setL2Inequality(2, 3, 12, '<=')">2x + 3y ≤ 12</button>
+                  <button class="btn btn-sm btn-outline" onclick="setL2Inequality(2, 3, 12, '>=')">2x + 3y ≥ 12</button>
+                  <button class="btn btn-sm btn-outline" onclick="setL2Inequality(1, -1, 2, '<=')">x - y ≤ 2</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="l2_explanation" style="margin-top: 14px; font-size: 0.88rem; color: #334155; background: #ecfdf5; padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--success);">
+              Menampilkan Daerah Penyelesaian untuk <strong>2x + 3y ≤ 12</strong>. Arsiran berwarna hijau toska transparan menunjukkan semua kombinasi (x, y) yang memenuhi.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LEVEL 3 — FIND THE INTERSECTION -->
+      <div id="tab-level3" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Level 3</span>
+          <h2>⚔️ Find the Intersection — Sistem Pertidaksamaan (SPtLDV)</h2>
+          <p>Ketika dua batasan atau lebih bekerja sekaligus, daerah penyelesaiannya adalah <strong>irisan bersama</strong>!</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">🧩 Konsep Irisan Daerah (Feasible Region)</h3>
+            <p style="margin: 10px 0;">
+              Suatu <strong>sistem</strong> terdiri dari gabungan beberapa pertidaksamaan. Solusi akhirnya adalah himpunan titik (x, y) yang memenuhi <strong>seluruh</strong> pertidaksamaan secara serempak.
+            </p>
+
+            <div class="callout info">
+              <strong>Contoh Sistem Pertidaksamaan:</strong><br>
+              1. <span class="math-eq">x + y ≤ 10</span> &nbsp;&nbsp;(Batasan Kapasitas Total)<br>
+              2. <span class="math-eq">2x + y ≤ 14</span> &nbsp;&nbsp;(Batasan Anggaran / Bahan)<br>
+              3. <span class="math-eq">x ≥ 0, y ≥ 0</span> &nbsp;&nbsp;(Kuadran I / Non-Negatif)
+            </div>
+
+            <h4 style="margin: 16px 0 8px;">Kontrol Lapisan Visual (Interactive Layering):</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+              Centang/hilangkan centang untuk mengamati bagaimana masing-masing garis dan arsiran membentuk irisan akhir:
+            </p>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 10px;">
+              <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                <input type="checkbox" id="chkL3Line1" checked onchange="renderCanvasL3()">
+                <span style="color: #2563eb;">■ Tampilkan Garis 1 (x + y = 10) & Arsiran Biru</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                <input type="checkbox" id="chkL3Line2" checked onchange="renderCanvasL3()">
+                <span style="color: #dc2626;">■ Tampilkan Garis 2 (2x + y = 14) & Arsiran Merah</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                <input type="checkbox" id="chkL3Intersection" checked onchange="renderCanvasL3()">
+                <span style="color: #0d9488; font-weight: 800;">★ Tampilkan Daerah Irisan Solusi (Paling Gelap / Terarsir Ganda)</span>
+              </label>
+            </div>
+
+            <div style="margin-top: 14px; font-size: 0.88rem; background: #fffbeb; padding: 12px; border-radius: var(--radius-md); border-left: 4px solid var(--accent-warm);">
+              🔍 <strong>Titik Sudut (Corner Points):</strong><br>
+              Irisan daerah penyelesaian dibatasi oleh poligon dengan titik sudut:<br>
+              <strong>(0, 0), (7, 0), (4, 6) [titik potong kedua garis], dan (0, 10)</strong>.
+            </div>
+          </div>
+
+          <!-- KANVAS LEVEL 3 -->
+          <div class="card">
+            <h3 class="card-title">📊 Kanvas Irisan SPtLDV</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+              Perhatikan daerah yang tertimpa oleh kedua warna sekaligus di kuadran I.
+            </p>
+
+            <div class="graph-canvas-box">
+              <canvas id="canvasL3" width="460" height="340" style="max-width: 100%; height: auto;"></canvas>
+              <div class="canvas-controls">
+                <span style="font-size: 0.85rem; color: #475569;">
+                  Garis 1 (Biru): x + y ≤ 10 | Garis 2 (Merah): 2x + y ≤ 14
+                </span>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; text-align: right;">
+              <button class="btn btn-accent" onclick="completeLevel3()">
+                Selesaikan Level 3 & Klaim Badge 🏆
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: GEOGEBRA LAB -->
+      <div id="tab-geogebra" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Eksplorasi Mandiri</span>
+          <h2>📈 GeoGebra Lab SPtLDV</h2>
+          <p>Uji model matematikamu sendiri secara bebas dengan GeoGebra Graphing Calculator resmi.</p>
+        </div>
+
+        <div class="card">
+          <div class="grid-2" style="margin-bottom: 20px;">
+            <div style="background: #eff6ff; padding: 16px; border-radius: var(--radius-md); border-left: 4px solid var(--primary-light);">
+              <h4 style="font-size: 1rem; color: var(--primary); margin-bottom: 6px;">💡 Alur Laboratorium GeoGebra:</h4>
+              <div style="font-size: 0.88rem; font-weight: 700; color: #1e3a8a; margin-bottom: 8px;">
+                COBA → AMATI → BANDINGKAN → JELASKAN
+              </div>
+              <ol style="font-size: 0.85rem; padding-left: 18px; color: #334155; line-height: 1.6;">
+                <li>Ketik persamaan atau pertidaksamaan pada panel GeoGebra sebelah kiri (misal: <code>2x + y &lt;= 10</code>).</li>
+                <li>Tambahkan pertidaksamaan kedua (misal: <code>x + 2y &lt;= 8</code>).</li>
+                <li>Gunakan operator <code>&amp;&amp;</code> untuk melihat irisan: <code>2x + y &lt;= 10 &amp;&amp; x + 2y &lt;= 8 &amp;&amp; x &gt;= 0 &amp;&amp; y &gt;= 0</code>.</li>
+                <li>Tandai titik potong menggunakan alat <em>Intersect</em>.</li>
+              </ol>
+            </div>
+
+            <div style="background: #f0fdfa; padding: 16px; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
+              <h4 style="font-size: 1rem; color: #0f766e; margin-bottom: 6px;">🔗 Template Cepat & Tautan Eksternal:</h4>
+              <p style="font-size: 0.85rem; color: #334155; margin-bottom: 10px;">
+                Jika iframe di bawah memerlukan tampilan layar penuh atau ingin disimpan ke akun GeoGebra kelompokmu:
+              </p>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="https://www.geogebra.org/calculator" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-accent">
+                  🌐 Buka GeoGebra di Tab Baru ↗
+                </a>
+                <button class="btn btn-sm btn-outline" onclick="copyGeogebraSyntax()">
+                  📋 Salin Contoh Sintaks SPtLDV
+                </button>
+              </div>
+              <div id="copyNotice" style="font-size: 0.8rem; color: #0d9488; margin-top: 6px; display: none;">Tersalin ke clipboard!</div>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--border-dark); border-radius: var(--radius-md); overflow: hidden; background: #f8fafc; position: relative;">
+            <div style="background: #f1f5f9; padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; color: #475569; display: flex; justify-content: space-between; align-items: center;">
+              <span>GeoGebra Graphing Calculator Embed</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Didukung oleh GeoGebra Suite</span>
+            </div>
+            <iframe 
+              src="https://www.geogebra.org/calculator?embed" 
+              width="100%" 
+              height="550" 
+              style="border: none; display: block;" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MATH TRAIL (FITUR UTAMA - TEPAT 3 POS, 1 KELOMPOK 1 POS) -->
+      <div id="tab-mathtrail" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <span class="badge badge-accent" style="background: var(--accent); color: white;">Fitur Utama Outdoor Learning (3 Pos Sekolah)</span>
+              <h2>🗺️ MATH TRAIL — Misi Khusus Pos Anda</h2>
+              <p>Masing-masing kelompok ditugaskan pada <strong>1 pos khusus</strong> (2 kelompok per pos). Amati lingkungan sekitarmu, kumpulkan data, dan selesaikan misi!</p>
+            </div>
+            <div style="text-align: right;">
+              <span class="badge badge-primary" id="trailProgressBadge">Misi Pos Anda</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- POS INFO CARD -->
+        <div class="card" style="border: 2px solid var(--accent); background: #f0fdfa;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <span class="badge badge-accent" id="trailPostBadgeTop">POS 1</span>
+              <h3 style="font-size: 1.4rem; color: #0f766e; margin-top: 4px;" id="trailPostNameTop">
+                POS 1 — KANTIN SEKOLAH
+              </h3>
+              <p style="font-size: 0.9rem; color: #334155; margin-top: 2px;" id="trailPostPartnerInfo">
+                Kelompok yang bertugas di pos ini: <strong>Kelompok 1</strong> dan <strong>Kelompok 2</strong>.
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-outline" onclick="rerandomizePosAssignment()">
+                🎲 Acak Ulang Pembagian Pos (6 Kelompok)
+              </button>
+            </div>
+          </div>
+
+          <!-- ENAM ALUR SETIAP POS (VISUAL GUIDANCE) -->
+          <div class="trail-phases" style="margin-top: 18px;">
+            <div class="trail-phase-item current" id="ph-1">1. EXPLORE<br><span style="font-size: 0.68rem; font-weight: normal;">Amati Lokasi</span></div>
+            <div class="trail-phase-item" id="ph-2">2. COLLECT<br><span style="font-size: 0.68rem; font-weight: normal;">Catat Data</span></div>
+            <div class="trail-phase-item" id="ph-3">3. MODEL<br><span style="font-size: 0.68rem; font-weight: normal;">Buat SPtLDV</span></div>
+            <div class="trail-phase-item" id="ph-4">4. VISUALIZE<br><span style="font-size: 0.68rem; font-weight: normal;">Cek Grafik</span></div>
+            <div class="trail-phase-item" id="ph-5">5. SOLVE<br><span style="font-size: 0.68rem; font-weight: normal;">Cari Solusi</span></div>
+            <div class="trail-phase-item" id="ph-6">6. INTERPRET<br><span style="font-size: 0.68rem; font-weight: normal;">Makna Nyata</span></div>
+          </div>
+        </div>
+
+        <!-- ACTIVE POST CARD (SESUAI POS YANG DITUGASKAN KEPADA KELOMPOK) -->
+        <div class="card" id="activePostCard">
+          <div class="card-header">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="badge badge-accent" id="activePostBadge">POS 1</span>
+                <span style="font-size: 0.85rem; color: var(--text-muted);" id="activePostLocation">Lokasi: Kantin Sekolah</span>
+              </div>
+              <h3 style="font-size: 1.35rem; color: var(--primary-dark); margin-top: 4px;" id="activePostTitle">
+                Pos 1: Batasan Belanja Kantin Sehat
+              </h3>
+            </div>
+            <div id="activePostStatusBadge">
+              <span class="badge badge-warning">Sedang Dikerjakan</span>
+            </div>
+          </div>
+
+          <!-- DESKRIPSI MISI DI POS -->
+          <div style="margin-bottom: 20px;">
+            <p id="activePostDesc" style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+              Amati daftar harga menu di kantin sekolah. Kelompokmu ditugaskan memilih 2 item makanan/minuman, menentukan batas kuota dan anggaran, lalu menyusun model pertidaksamaannya!
+            </p>
+          </div>
+
+          <!-- LEMBAR KERJA DIGITAL & GRAFIK -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <!-- SISI KIRI: INPUT DATA & MODEL MATEMATIKA -->
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px;">
+              <h4 style="font-size: 1rem; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                📋 Lembar Kerja Digital Pos
+              </h4>
+
+              <div class="form-group">
+                <label>Objek 1 (Variabel <span class="math-eq">x</span>):</label>
+                <input type="text" id="postObjX" class="form-control" placeholder="Contoh: Roti Bakar (Harga Rp3.000)">
+              </div>
+
+              <div class="form-group">
+                <label>Objek 2 (Variabel <span class="math-eq">y</span>):</label>
+                <input type="text" id="postObjY" class="form-control" placeholder="Contoh: Jus Buah (Harga Rp5.000)">
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label>Batasan 1 (cth: Anggaran):</label>
+                  <input type="text" id="postConst1" class="form-control" placeholder="Contoh: 3x + 5y ≤ 30">
+                </div>
+                <div class="form-group">
+                  <label>Batasan 2 (cth: Kuota):</label>
+                  <input type="text" id="postConst2" class="form-control" placeholder="Contoh: x + y ≥ 6">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Pertanyaan Uji Tantangan Pos:</label>
+                <div id="postChallengeQuestion" style="background: white; border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; color: #1e3a8a;">
+                  <!-- Dynamically filled -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="postStudentAnswer">Jawaban Analisis Kelompok:</label>
+                <input type="text" id="postStudentAnswer" class="form-control" placeholder="Ketik angka / jawabanmu di sini...">
+              </div>
+
+              <!-- HINT SYSTEM (3 LEVELS) -->
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="requestPostHint(1)">
+                  💡 HINT 1 — Petunjuk Umum ▾
+                </button>
+                <div id="postHint1Box" class="hint-content"></div>
+
+                <button type="button" class="hint-btn" onclick="requestPostHint(2)">
+                  💡 HINT 2 — Petunjuk Strategi ▾
+                </button>
+                <div id="postHint2Box" class="hint-content"></div>
+
+                <button type="button" class="hint-btn" onclick="requestPostHint(3)">
+                  💡 HINT 3 — Petunjuk Matematis Lebih Spesifik ▾
+                </button>
+                <div id="postHint3Box" class="hint-content"></div>
+              </div>
+
+              <div style="margin-top: 16px; display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="submitPostAnswer()">
+                  Kirim Jawaban Misi Pos
+                </button>
+                <button class="btn btn-outline" onclick="openTutorModal()">
+                  💬 Tanya Guru via Chat
+                </button>
+              </div>
+
+              <div id="postFeedbackBanner" class="feedback-banner"></div>
+            </div>
+
+            <!-- SISI KANAN: UPLOAD BUKTI & GRAFIK PREVIEW POS -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- UPLOAD BUKTI AKTIVITAS -->
+              <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px;">
+                <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                  📸 Upload Bukti Aktivitas Pos
+                </h4>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+                  Unggah foto kelompok saat berada di pos lokasi sekolah, catatan data lapangan, atau coretan model matematika.
+                </p>
+
+                <div class="form-group">
+                  <input type="file" id="postProofFileInput" accept="image/*,application/pdf" class="form-control" onchange="handleProofUpload(event)">
+                </div>
+
+                <div class="form-group">
+                  <input type="text" id="postProofCaption" class="form-control" placeholder="Keterangan foto (cth: Foto observasi di kantin sekolah)">
+                </div>
+
+                <div id="postProofPreviewArea" style="min-height: 60px; background: #f8fafc; border: 1px dashed var(--border-dark); border-radius: var(--radius-md); padding: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--text-muted);">
+                  Belum ada bukti yang diunggah untuk pos ini.
+                </div>
+              </div>
+
+              <!-- MINI GRAFIK SOLUSI POS -->
+              <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px;">
+                <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                  📊 Visualisasi Pos & Interpretasi Nyata
+                </h4>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
+                  Kanvas simulasi daerah penyelesaian kontekstual pos ini:
+                </p>
+                <div style="display: flex; justify-content: center; background: #f8fafc; border-radius: var(--radius-md); padding: 10px;">
+                  <canvas id="canvasPostMini" width="380" height="220" style="max-width: 100%; height: auto;"></canvas>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.82rem; color: #475569;" id="postInterpretationBox">
+                  Interpretasi: Titik-titik bilangan bulat (x, y) di dalam daerah hijau menunjukkan seluruh opsi pembelian nyata yang aman tanpa melanggar kuota maupun anggaran.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB: PRESENTASI (SHARE YOUR SOLUTION) -->
+      <div id="tab-presentation" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-primary">Tahap Kolaborasi</span>
+          <h2>🎤 Share Your Solution — Presentasi Kelompok</h2>
+          <p>Setelah melakukan observasi di posmu, susunlah hasil temuan kelompokmu menjadi bahan presentasi yang memukau!</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">📑 Panduan Struktur Presentasi</h3>
+            <p style="margin: 10px 0; font-size: 0.92rem;">
+              Presentasi kelompok minimal memuat 8 komponen penting berikut:
+            </p>
+            <ol style="padding-left: 20px; line-height: 1.8; font-size: 0.9rem; color: #334155;">
+              <li><strong>Masalah Nyata:</strong> Lokasi pos dan masalah kontekstual yang diamati.</li>
+              <li><strong>Data Lapangan:</strong> Besaran angka, harga, kapasitas, atau ukuran nyata.</li>
+              <li><strong>Definisi Variabel:</strong> Apa yang dimisalkan sebagai <span class="math-eq">x</span> dan <span class="math-eq">y</span>.</li>
+              <li><strong>Model SPtLDV:</strong> Sistem pertidaksamaan linear yang terbentuk.</li>
+              <li><strong>Garis Batas:</strong> Titik potong sumbu dan jenis garis (penuh/putus-putus).</li>
+              <li><strong>Daerah Penyelesaian:</strong> Hasil uji titik dan arsiran daerah solusi.</li>
+              <li><strong>Interpretasi Solusi:</strong> Apa arti daerah tersebut dalam konteks kehidupan sekolah.</li>
+              <li><strong>Kesimpulan:</strong> Rekomendasi keputusan optimal bagi warga sekolah.</li>
+            </ol>
+
+            <div class="callout info" style="margin-top: 16px;">
+              💡 <strong>Format yang Didukung:</strong> File PPTX, PDF, atau kumpulan gambar presentasi (slide). File disimpan secara aman di browser kelompokmu.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">📤 Form Pengumpulan Presentasi</h3>
+
+            <div class="form-group">
+              <label>Judul Presentasi:</label>
+              <input type="text" id="presTitle" class="form-control" placeholder="Contoh: Analisis Optimalisasi Anggaran Kantin Sekolah">
+            </div>
+
+            <div class="form-group">
+              <label>Nama Anggota Kelompok:</label>
+              <textarea id="presMembers" class="form-control" placeholder="Tuliskan nama seluruh anggota kelompok yang berkontribusi..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Pilih File Presentasi (PDF/PPT/Gambar):</label>
+              <input type="file" id="presFileInput" class="form-control" accept=".pdf,.ppt,.pptx,image/*" onchange="handlePresUpload(event)">
+            </div>
+
+            <div class="form-group">
+              <label>Tautan Presentasi Daring (Opsional - Canva / Google Slides):</label>
+              <input type="url" id="presLink" class="form-control" placeholder="https://www.canva.com/design/... atau Google Slides">
+            </div>
+
+            <button class="btn btn-primary" onclick="savePresentationData()">
+              💾 Simpan Presentasi Kelompok
+            </button>
+
+            <div id="presStatusNotice" style="margin-top: 14px; font-size: 0.88rem; font-weight: 600; color: var(--success); display: none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: FINAL PRODUCT (PRODUK AKHIR) -->
+      <div id="tab-finalproduct" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-accent">Karya Nyata</span>
+          <h2>🎯 Final Product — Produk Kreatif SPtLDV</h2>
+          <p>Tunjukkan bagaimana SPtLDV dapat digunakan untuk memahami dan menyelesaikan masalah di lingkungan sekolah.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title">🎨 Pilihan Format Produk Akhir</h3>
+            <p style="margin: 10px 0; font-size: 0.92rem;">
+              Setiap kelompok bebas memilih salah satu medium kreatif untuk menyebarkan pemahaman SPtLDV:
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+              <div style="border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-md); background: #f8fafc;">
+                <strong>📊 1. Infografis Edukatif:</strong> Poster visual satu halaman berisi infografis alur penyelesaian masalah nyata sekolah dengan SPtLDV.
+              </div>
+              <div style="border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-md); background: #f8fafc;">
+                <strong>🎬 2. Video Penjelasan Interaktif:</strong> Video pendek (2-3 menit) demonstrasi observasi lapangan hingga visualisasi GeoGebra.
+              </div>
+              <div style="border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-md); background: #f8fafc;">
+                <strong>📑 3. Laporan Visual / Majalah Dinding:</strong> Laporan bergambar yang memuat dokumentasi pos dan grafik solusi.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">📥 Unggah Karya Produk Akhir</h3>
+
+            <div class="form-group">
+              <label>Jenis Produk:</label>
+              <select id="prodType" class="form-control">
+                <option value="Infografis">Infografis Edukatif</option>
+                <option value="Poster Digital">Poster Digital</option>
+                <option value="Video Pembelajaran">Video Pembelajaran</option>
+                <option value="Laporan Visual">Laporan Visual / PDF</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Deskripsi Singkat / Gagasan Utama:</label>
+              <textarea id="prodDesc" class="form-control" placeholder="Jelaskan secara ringkas isi dan pesan utama karya kelompokmu..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Unggah Berkas Produk:</label>
+              <input type="file" id="prodFile" class="form-control" accept="image/*,video/*,application/pdf" onchange="handleProdUpload(event)">
+            </div>
+
+            <div class="form-group">
+              <label>Tautan Eksternal Video / Desain (Opsional - YouTube / Drive):</label>
+              <input type="url" id="prodUrl" class="form-control" placeholder="https://youtu.be/... atau Google Drive">
+            </div>
+
+            <button class="btn btn-accent" onclick="saveProductData()">
+              🚀 Kirim Produk Akhir
+            </button>
+
+            <div id="prodStatusNotice" style="margin-top: 14px; font-size: 0.88rem; font-weight: 600; color: var(--accent); display: none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: REFLECTION (REFLEKSI) -->
+      <div id="tab-reflection" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-purple">Metakognisi</span>
+          <h2>📝 Refleksi Pembelajaran</h2>
+          <p>Luangkan waktu sejenak untuk memikirkan kembali perjalanan belajarmu hari ini.</p>
+        </div>
+
+        <div class="card" style="max-width: 900px; margin: 0 auto;">
+          <form onsubmit="handleSaveReflection(event)">
+            <div class="form-group">
+              <label>1. Masalah nyata apa yang paling menarik yang kamu temukan di pos sekolahmu hari ini?</label>
+              <textarea id="refQ1" class="form-control" required placeholder="Ceritakan situasi nyata yang kamu amati di posmu..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>2. Bagaimana kamu dan kelompokmu menentukan variabel x dan y dari situasi nyata tersebut?</label>
+              <textarea id="refQ2" class="form-control" required placeholder="Langkah dalam memilih apa yang menjadi x dan y..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>3. Apa sebenarnya arti "Daerah Penyelesaian" dalam masalah nyata di posmu?</label>
+              <textarea id="refQ3" class="form-control" required placeholder="Jelaskan maknanya tanpa rumus..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>4. Bagian mana yang paling menantang selama aktivitas Math Trail dan bagaimana kamu mengatasinya?</label>
+              <textarea id="refQ4" class="form-control" required placeholder="Tantangan terbesar dan solusinya..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>5. Bagaimana bantuan visual (grafik kanvas / GeoGebra) mengubah caramu memahami SPtLDV?</label>
+              <textarea id="refQ5" class="form-control" required placeholder="Peran visualisasi dalam pemahamanmu..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>6. Apa perbedaan belajar SPtLDV langsung di pos sekolah dengan hanya mendengarkan di papan tulis?</label>
+              <textarea id="refQ6" class="form-control" required placeholder="Perbedaan suasana dan pemahaman konsep..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>7. Apa hal paling baru yang kamu pahami tentang matematika yang sebelumnya belum kamu sadari?</label>
+              <textarea id="refQ7" class="form-control" required placeholder="Refleksi pribadimu..."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+              <button type="submit" class="btn btn-primary btn-lg">
+                💾 Simpan Refleksi Saya
+              </button>
+            </div>
+          </form>
+          <div id="reflectionSaveNotice" class="feedback-banner correct" style="display: none; margin-top: 14px;">
+            🎉 Refleksi berhasil disimpan ke portofolio belajarmu!
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MASTER CHALLENGE -->
+      <div id="tab-challenge" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-warning">Uji Kemampuan</span>
+          <h2>🔥 Master Challenge — Evaluasi Akhir SPtLDV</h2>
+          <p>Ujilah penguasaan komprehensifmu mulai dari konsep garis batas, titik uji, SPtLDV hingga interpretasi masalah nyata.</p>
+        </div>
+
+        <div class="card" style="max-width: 860px; margin: 0 auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;">
+            <div>
+              <span style="font-weight: 700; color: var(--primary);">Soal Evaluasi Mandiri</span>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Kerjakan dengan teliti. Jika ada kesalahan, kamu bisa mencoba lagi dengan petunjuk!</div>
+            </div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-warm);" id="mcScoreDisplay">
+              Nilai: - / 100
+            </div>
+          </div>
+
+          <div id="challengeQuestionsContainer">
+            <!-- Soal 1 -->
+            <div class="mc-item" style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px dashed var(--border);">
+              <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                1. Garis Batas Penuh vs Putus-Putus
+              </h4>
+              <p style="font-size: 0.92rem; margin-bottom: 10px;">
+                Sebuah pertidaksamaan memiliki bentuk <span class="math-eq">4x + 5y &lt; 20</span>. Pernyataan berikut yang <strong>benar</strong> mengenai grafik garis pembatasnya adalah:
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q1" value="A"> A. Digambar garis lurus penuh karena koefisiennya bernilai positif.
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q1" value="B"> B. Digambar garis putus-putus dan titik di sepanjang garis tersebut BUKAN termasuk penyelesaian.
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q1" value="C"> C. Digambar garis putus-putus dan titik di atas garis tersebut adalah satu-satunya penyelesaian.
+                </label>
+              </div>
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="toggleHint('mc_h1')">💡 Butuh Petunjuk? ▾</button>
+                <div id="mc_h1" class="hint-content">Perhatikan tanda ketidaksamaan murni (&lt; atau &gt;). Apakah tanda itu memiliki garis bawah sama dengan?</div>
+              </div>
+            </div>
+
+            <!-- Soal 2 -->
+            <div class="mc-item" style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px dashed var(--border);">
+              <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                2. Uji Titik Penyelidikan
+              </h4>
+              <p style="font-size: 0.92rem; margin-bottom: 10px;">
+                Diberikan pertidaksamaan <span class="math-eq">3x - 2y ≥ 6</span>. Apakah titik asal (0, 0) berada di dalam daerah penyelesaian?
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q2" value="A"> A. Ya, karena <span class="math-eq">3(0) - 2(0) = 0</span>, dan pernyataan <span class="math-eq">0 ≥ 6</span> adalah benar.
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q2" value="B"> B. Tidak, karena setelah disubstitusikan menghasilkan <span class="math-eq">0 ≥ 6</span> yang bernilai salah.
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q2" value="C"> C. Tidak bisa ditentukan tanpa menggambar grafiknya terlebih dahulu.
+                </label>
+              </div>
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="toggleHint('mc_h2')">💡 Butuh Petunjuk? ▾</button>
+                <div id="mc_h2" class="hint-content">Ganti nilai x dengan 0 dan y dengan 0. Apakah 0 lebih besar atau sama dengan 6?</div>
+              </div>
+            </div>
+
+            <!-- Soal 3 -->
+            <div class="mc-item" style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px dashed var(--border);">
+              <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                3. Sistem Pertidaksamaan & Titik Irisan
+              </h4>
+              <p style="font-size: 0.92rem; margin-bottom: 10px;">
+                Sistem pertidaksamaan: <span class="math-eq">x + y ≤ 6</span>, <span class="math-eq">x + 2y ≤ 8</span>, <span class="math-eq">x ≥ 0</span>, <span class="math-eq">y ≥ 0</span>. Berapakah koordinat titik potong antara garis <span class="math-eq">x + y = 6</span> dan <span class="math-eq">x + 2y = 8</span>?
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q3" value="A"> A. (4, 2)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q3" value="B"> B. (2, 4)
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                  <input type="radio" name="mc_q3" value="C"> C. (3, 3)
+                </label>
+              </div>
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="toggleHint('mc_h3')">💡 Butuh Petunjuk? ▾</button>
+                <div id="mc_h3" class="hint-content">Kurangkan kedua persamaan: <span class="math-eq">(x + 2y) - (x + y) = 8 - 6 → y = 2</span>. Lalu cari nilai x.</div>
+              </div>
+            </div>
+
+            <!-- Soal 4 -->
+            <div class="mc-item" style="margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px dashed var(--border);">
+              <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                4. Soal Kontekstual Parkir Sekolah (Input Jawaban)
+              </h4>
+              <p style="font-size: 0.92rem; margin-bottom: 10px;">
+                Area parkir sekolah memiliki luas 120 m². Satu motor (<span class="math-eq">x</span>) membutuhkan 2 m² dan satu mobil guru (<span class="math-eq">y</span>) membutuhkan 10 m². Jika daya tampung maksimal kendaraan adalah 20 unit, dan jika sekolah memarkirkan 15 motor, berapa <strong>jumlah maksimal mobil</strong> yang masih bisa masuk? (Ketikkan angka bulatnya saja).
+              </p>
+              <input type="number" id="mc_q4_input" class="form-control" style="max-width: 150px;" placeholder="Angka saja...">
+              <div class="hint-container">
+                <button type="button" class="hint-btn" onclick="toggleHint('mc_h4')">💡 Butuh Petunjuk? ▾</button>
+                <div id="mc_h4" class="hint-content">Cek dua batasan: Daya tampung: <span class="math-eq">15 + y ≤ 20 → y ≤ 5</span>. Luas: <span class="math-eq">2(15) + 10y ≤ 120 → 30 + 10y ≤ 120 → 10y ≤ 90 → y ≤ 9</span>. Ambil nilai yang memenuhi KEDUA batasan sekaligus!</div>
+              </div>
+            </div>
+
+            <!-- Soal 5 (Benar / Salah) -->
+            <div class="mc-item" style="margin-bottom: 24px;">
+              <h4 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 8px;">
+                5. Validasi Pernyataan Konseptual (Benar / Salah)
+              </h4>
+              <p style="font-size: 0.92rem; margin-bottom: 10px;">
+                "Daerah Penyelesaian (DP) dari suatu sistem pertidaksamaan linear dua variabel selalu hanya berupa satu titik koordinat tunggal saja."
+              </p>
+              <div style="display: flex; gap: 16px;">
+                <label style="display: flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer;">
+                  <input type="radio" name="mc_q5" value="BENAR"> BENAR
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer;">
+                  <input type="radio" name="mc_q5" value="SALAH"> SALAH
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+            <button class="btn btn-primary btn-lg" onclick="evaluateMasterChallenge()">
+              Periksa & Selesaikan Master Challenge
+            </button>
+          </div>
+
+          <div id="challengeResultNotice" class="feedback-banner"></div>
+        </div>
+      </div>
+
+      <!-- TAB: RESULTS (HASIL SAYA) -->
+      <div id="tab-results" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <span class="badge badge-accent">Portofolio Siswa</span>
+          <h2>🏆 HASIL SAYA — Rekap Prestasi Belajar</h2>
+          <p>Seluruh jejak langkah eksplorasi, capaian nilai, dan produk karyamu terekam rapi di sini.</p>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 24px;">
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Skor Total Pembelajaran</div>
+            <div style="font-size: 2.4rem; font-weight: 800; color: var(--primary);" id="resTotalScore">0</div>
+            <div style="font-size: 0.8rem; color: var(--success); font-weight: 600;" id="resScoreGrade">Status: Berjalan</div>
+          </div>
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Status Misi Pos Anda</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-top: 8px;" id="resPosStatusText">Belum Selesai</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" id="resPosNameSub">-</div>
+          </div>
+          <div class="card" style="text-align: center;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Total Hint Digunakan</div>
+            <div style="font-size: 2.4rem; font-weight: 800; color: var(--accent-warm);" id="resHintsUsed">0</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Tingkat Kemandirian Belajar</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- DETAIL IDENTITAS & MISI -->
+          <div class="card">
+            <h3 class="card-title">📋 Identitas & Progres Belajar</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                <span style="color: var(--text-muted);">Nama Siswa:</span>
+                <strong id="resName">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                <span style="color: var(--text-muted);">Kelas & Kelompok:</span>
+                <strong id="resClassGroup">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                <span style="color: var(--text-muted);">Pos Tugas Kelompok:</span>
+                <strong id="resAssignedPosName" style="color: var(--accent);">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                <span style="color: var(--text-muted);">Waktu Mulai:</span>
+                <span id="resStartTime">-</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                <span style="color: var(--text-muted);">Nilai Master Challenge:</span>
+                <strong id="resMasterScore">-</strong>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <button class="btn btn-outline" style="width: 100%;" onclick="window.print()">
+                🖨️ Cetak / Simpan PDF Lembar Portofolio
+              </button>
+            </div>
+          </div>
+
+          <!-- CHECKLIST DOKUMEN PORTFOLIO -->
+          <div class="card">
+            <h3 class="card-title">📦 Kelengkapan Berkas Portofolio</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span>Bukti Foto Aktivitas Pos:</span>
+                <span id="resProofStatus" class="badge badge-warning">0 Bukti</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span>Slide Presentasi Kelompok:</span>
+                <span id="resPresStatus" class="badge badge-warning">Belum Ada</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span>Karya Produk Akhir:</span>
+                <span id="resProdStatus" class="badge badge-warning">Belum Ada</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <span>Lembar Refleksi Pembelajaran:</span>
+                <span id="resRefStatus" class="badge badge-warning">Belum Mengisi</span>
+              </div>
+            </div>
+
+            <div class="callout success" style="margin-top: 16px;">
+              🌟 <strong>Pesan Guru:</strong> Terima kasih telah berani keluar dari zona nyaman kelas dan menemukan matematika secara nyata di lingkungan SMA Negeri 2 Salatiga!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: DASHBOARD GURU / ADMIN -->
+      <div id="tab-teacher" class="tab-content fade-in" style="display: none;">
+        <div class="section-header">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <span class="badge badge-primary">Panel Pendidik & PPL</span>
+              <h2>👩‍🏫 Dashboard Guru — Monitoring Pembelajaran</h2>
+              <p>Kelola data 3 pos sekolah, balas pesan chat konsultasi siswa secara daring, dan pantau hasil belajar 6 kelompok.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-outline btn-sm" onclick="exportDataJSON()">
+                📥 Export JSON
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFileInput').click()">
+                📤 Import JSON
+              </button>
+              <input type="file" id="importFileInput" style="display: none;" accept=".json" onchange="importDataJSON(event)">
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYANAN KONSULTASI CHAT TUTOR GURU (LIVE DARING) -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">💬 Layanan Chat Tutor Guru (Konsultasi Daring Siswa)</h3>
+            <span class="badge badge-accent">Guru Menjawab via Chat</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            Siswa mengajukan pertanyaan/kendala belajar secara daring, dan guru menjawabnya langsung melalui percakapan teks di bawah ini tanpa perlu mendatangi lokasi fisik.
+          </p>
+
+          <div class="chat-container" style="height: 280px;">
+            <div class="chat-messages" id="teacherChatMessages">
+              <!-- Dynamically populated messages -->
+            </div>
+            <form class="chat-input-bar" onsubmit="handleTeacherReply(event)">
+              <input type="text" id="teacherReplyInput" class="form-control" placeholder="Tulis jawaban/bimbingan guru untuk siswa..." required>
+              <button type="submit" class="btn btn-primary btn-sm">Kirim Balasan Chat</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TABEL DISTRIBUSI POS (6 KELOMPOK DI 3 POS) -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📍 Distribusi 6 Kelompok di 3 Pos Sekolah</h3>
+            <button class="btn btn-sm btn-outline" onclick="rerandomizePosAssignment()">
+              🎲 Acak Ulang Pembagian Pos
+            </button>
+          </div>
+          <div class="grid-3" style="margin-bottom: 18px;" id="teacherPosDistributionCards">
+            <!-- Dynamically populated pos allocation cards -->
+          </div>
+          
+          <h4 style="font-size: 1rem; margin-bottom: 10px;">📊 Rekap Data & Nilai Sesi</h4>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left;">
+              <thead>
+                <tr style="background: #f1f5f9; border-bottom: 2px solid var(--border);">
+                  <th style="padding: 10px;">Kelompok</th>
+                  <th style="padding: 10px;">Ketua / Siswa</th>
+                  <th style="padding: 10px;">Kelas</th>
+                  <th style="padding: 10px;">Pos Ditugaskan</th>
+                  <th style="padding: 10px;">Status Pos</th>
+                  <th style="padding: 10px;">Skor Master</th>
+                  <th style="padding: 10px;">Hint Dipakai</th>
+                  <th style="padding: 10px;">Refleksi</th>
+                </tr>
+              </thead>
+              <tbody id="teacherGroupTableBody">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- EDIT DATA 3 POS OLEH GURU -->
+        <div class="card">
+          <h3 class="card-title" style="margin-bottom: 12px;">⚙️ Kelola / Edit Data 3 Pos Math Trail</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+            Guru dapat menyesuaikan deskripsi atau kunci jawaban pos sesuai dengan kondisi nyata lingkungan sekolah saat ini.
+          </p>
+
+          <div class="form-group">
+            <label>Pilih Pos yang Ingin Diedit:</label>
+            <select id="teacherSelectPost" class="form-control" onchange="loadTeacherPostEditor()">
+              <option value="0">Pos 1 — Kantin Sekolah</option>
+              <option value="1">Pos 2 — Koperasi Sekolah</option>
+              <option value="2">Pos 3 — Lapangan Olahraga</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Nama Pos:</label>
+              <input type="text" id="tEditPostTitle" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Lokasi Fisik:</label>
+              <input type="text" id="tEditPostLocation" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Deskripsi Tugas Lapangan:</label>
+            <textarea id="tEditPostDesc" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Kunci Jawaban Validasi Pos (Angka / Kata Kunci):</label>
+            <input type="text" id="tEditPostKey" class="form-control">
+          </div>
+
+          <button class="btn btn-primary" onclick="saveTeacherPostChanges()">
+            Simpan Perubahan Pos Ini
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL CHAT TUTOR GURU (ONLINE VIA CHAT) -->
+  <div class="modal-overlay" id="tutorModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="display: flex; align-items: center; gap: 8px; color: var(--primary-dark);">
+          💬 Chat Tutor Guru (Konsultasi Daring)
+        </h3>
+        <button class="close-modal" onclick="closeTutorModal()">✕</button>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+        Guru memantau secara daring dan akan menjawab kendalamu lewat pesan chat di bawah ini. Tanyakan apa pun terkait variabel, pemodelan, atau daerah penyelesaian!
+      </p>
+
+      <!-- CHAT INTERFACE FOR STUDENT -->
+      <div class="chat-container">
+        <div class="chat-messages" id="studentChatMessages">
+          <!-- Populated dynamically -->
+        </div>
+        <form class="chat-input-bar" onsubmit="handleSendStudentChat(event)">
+          <input type="text" id="studentChatInput" class="form-control" placeholder="Ketik pertanyaan untuk guru..." required>
+          <button type="submit" class="btn btn-primary btn-sm">Kirim Chat</button>
+        </form>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeTutorModal()">Tutup Jendela Chat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER WAJIB -->
+  <footer>
+    <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; align-items: center;">
+      <p style="font-weight: 700; color: var(--primary);">SPtLDV MATH TRAIL — Explore • Visualize • Solve</p>
+      <p style="font-size: 0.85rem;">Temukan Matematika di Sekitarmu!</p>
+      <p style="font-weight: 600; color: #475569; margin-top: 4px;">Dibuat oleh PPL PPG SMA Negeri 2 Salatiga</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIKA APLIKASI -->
+  <script>
+    /* ============================================================
+       1. STATE MANAGEMENT & DATA PERSISTENCE
+       ============================================================ */
+    const STORAGE_KEY = 'sptldv_math_trail_data_3pos_v2';
+
+    // PERSYARATAN: TEPAT 3 POS SAJA
+    const DEFAULT_POSTS = [
+      {
+        id: 'pos-1',
+        posNumber: 1,
+        name: 'POS 1 — KANTIN SEKOLAH',
+        location: 'Kantin Sekolah (Area Belakang)',
+        focus: 'Harga, Jumlah Barang, Anggaran Belanja & Kombinasi',
+        description: 'Amati harga makanan dan minuman di kantin sekolah. Panitia OSIS memiliki anggaran maksimal Rp30.000 untuk membeli roti bakar (harga Rp3.000/buah) dan jus buah (harga Rp5.000/gelas). Jumlah seluruh barang yang dibeli minimal 6 porsi agar cukup dibagikan.',
+        question: 'Jika panitia membeli 5 porsi roti bakar (x = 5), berapakah jumlah jus buah (y) maksimal yang dapat dibeli agar anggaran belanja dan kuota minimal tetap terpenuhi?',
+        correctKey: '3',
+        hint1: 'Tentukan model pertidaksamaannya: 3x + 5y ≤ 30 (anggaran) dan x + y ≥ 6 (kuota minimal), dengan x, y ≥ 0.',
+        hint2: 'Substitusikan x = 5 ke batasan anggaran: 3(5) + 5y ≤ 30 → 15 + 5y ≤ 30 → 5y ≤ 15 → y ≤ 3.',
+        hint3: 'Cek syarat kuota: Jika x = 5 dan y = 3, maka total barang 5 + 3 = 8 (memenuhi ≥ 6). Jadi jumlah jus maksimal adalah 3 gelas.',
+        a: 3, b: 5, c: 30, minSum: 6
+      },
+      {
+        id: 'pos-2',
+        posNumber: 2,
+        name: 'POS 2 — KOPERASI SISWA',
+        location: 'Koperasi Siswa Mandiri',
+        focus: 'Jumlah Barang, Batas Anggaran & Model Pertidaksamaan',
+        description: 'Koperasi menjual buku catatan seharga Rp4.000 dan pulpen seharga Rp2.000. Kamu memiliki uang Rp20.000 dan tas belanja hanya mampu menampung maksimal 8 buah barang total.',
+        question: 'Berapakah jumlah maksimal buku catatan (x) yang bisa dibeli jika kamu membeli setidaknya 3 pulpen (y ≥ 3)?',
+        correctKey: '3',
+        hint1: 'Model: 4x + 2y ≤ 20 (anggaran) dan x + y ≤ 8 (daya tampung), dengan x, y ≥ 0.',
+        hint2: 'Jika y = 3, maka dari batasan anggaran: 4x + 2(3) ≤ 20 → 4x + 6 ≤ 20 → 4x ≤ 14 → x ≤ 3,5.',
+        hint3: 'Karena jumlah buku fisik adalah bilangan cacah bulat, nilai bulat terbesar x ≤ 3,5 adalah 3 buah buku catatan.',
+        a: 4, b: 2, c: 20, minSum: 8
+      },
+      {
+        id: 'pos-3',
+        posNumber: 3,
+        name: 'POS 3 — LAPANGAN OLAHRAGA',
+        location: 'Lapangan Olahraga Serbaguna',
+        focus: 'Ukuran, Alokasi Ruang & Batasan Situasi Nyata',
+        description: 'Lapangan serbaguna dibagi untuk latihan bulu tangkis (memerlukan 2 matras/lapangan kecil) dan futsal (memerlukan 6 matras). Panitia olahraga hanya memiliki 24 matras dan waktu latihan maksimal mengakomodasi 6 tim total.',
+        question: 'Jika ada 3 lapangan bulu tangkis yang dipakai (x = 3), berapa maksimal lapangan futsal (y) yang bisa dipakai bersamaan?',
+        correctKey: '3',
+        hint1: 'Model penggunaan matras: 2x + 6y ≤ 24 dan model kapasitas tim: x + y ≤ 6, dengan x, y ≥ 0.',
+        hint2: 'Substitusi x = 3 ke batas matras: 2(3) + 6y ≤ 24 → 6 + 6y ≤ 24 → 6y ≤ 18 → y ≤ 3.',
+        hint3: 'Periksa total tim: 3 + 3 = 6 (memenuhi syarat x + y ≤ 6). Jadi lapangan futsal maksimal yang bisa dipakai adalah 3 lapangan.',
+        a: 2, b: 6, c: 24, minSum: 6
+      }
+    ];
+
+    // PEMBAGIAN 6 KELOMPOK KE 3 POS (MASING-MASING 2 KELOMPOK)
+    function generateBalancedAssignments() {
+      const posSlots = [0, 0, 1, 1, 2, 2];
+      for (let i = posSlots.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [posSlots[i], posSlots[j]] = [posSlots[j], posSlots[i]];
+      }
+      const mapping = {};
+      for (let g = 1; g <= 6; g++) {
+        mapping[`Kelompok ${g}`] = posSlots[g - 1];
+      }
+      return mapping;
+    }
+
+    let appState = {
+      currentUser: null,
+      xp: 0,
+      badges: { line: false, region: false, trail: false, solver: false, master: false },
+      levelsCompleted: { level0: false, level1: false, level2: false, level3: false },
+      posts: JSON.parse(JSON.stringify(DEFAULT_POSTS)),
+      groupAssignments: generateBalancedAssignments(),
+      assignedPostIndex: 0,
+      postAnswers: {},
+      totalHintsUsed: 0,
+      chatMessages: [
+        { sender: 'teacher', senderName: 'Guru Matematika', text: 'Halo! Selamat datang di SPtLDV Math Trail. Jika ada kendala konsep atau pemodelan di pos kelompokmu, tanyakan langsung di chat ini ya!', time: '08:00' }
+      ],
+      presentation: { title: '', members: '', link: '', fileName: '', uploadedAt: null },
+      finalProduct: { type: '', desc: '', url: '', fileName: '', uploadedAt: null },
+      reflection: null,
+      masterChallenge: { score: 0, completed: false }
+    };
+
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState = Object.assign(appState, parsed);
+        }
+      } catch (e) {
+        console.warn('Gagal memuat local data:', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Gagal menyimpan local data:', e);
+      }
+    }
+
+    /* ============================================================
+       2. ONBOARDING & START
+       ============================================================ */
+    function handleStartApp(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentNameInput').value.trim();
+      const sClass = document.getElementById('studentClassInput').value.trim();
+      const group = document.getElementById('studentGroupInput').value;
+
+      if (!name || !sClass || !group) {
+        alert('Mohon lengkapi formulir identitas!');
+        return;
+      }
+
+      appState.currentUser = {
+        name,
+        class: sClass,
+        group,
+        startTime: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      if (!appState.groupAssignments || Object.keys(appState.groupAssignments).length !== 6) {
+        appState.groupAssignments = generateBalancedAssignments();
+      }
+      appState.assignedPostIndex = appState.groupAssignments[group] !== undefined ? appState.groupAssignments[group] : 0;
+
+      if (appState.xp === 0) {
+        addXP(50, 'Mulai Petualangan Math Trail');
+      }
+
+      saveState();
+      initAppUI();
+      switchSection('app');
+      switchTab('dashboard');
+    }
+
+    function initAppUI() {
+      if (!appState.currentUser) return;
+
+      const user = appState.currentUser;
+      const assignedIdx = appState.groupAssignments[user.group] !== undefined ? appState.groupAssignments[user.group] : 0;
+      appState.assignedPostIndex = assignedIdx;
+      const pos = appState.posts[assignedIdx];
+
+      const partnerGroups = [];
+      for (const [grp, pIdx] of Object.entries(appState.groupAssignments)) {
+        if (pIdx === assignedIdx && grp !== user.group) {
+          partnerGroups.push(grp);
+        }
+      }
+      const partnerText = partnerGroups.length > 0 ? partnerGroups.join(', ') : 'Kelompok Mitra';
+
+      document.getElementById('navUserInfo').style.display = 'flex';
+      document.getElementById('navStudentName').textContent = user.name;
+      document.getElementById('navStudentClass').textContent = user.class;
+      document.getElementById('navStudentGroup').textContent = user.group;
+      document.getElementById('navAssignedPos').textContent = `POS ${pos.posNumber}`;
+
+      document.getElementById('dashWelcomeName').textContent = `Halo, ${user.name}!`;
+      document.getElementById('dashBannerPosTitle').textContent = `Kelompok Anda Ditugaskan di: ${pos.name}`;
+      document.getElementById('dashBannerPosDetail').textContent = `Pos ini berlokasi di ${pos.location}. Kelompok Anda (${user.group}) bertugas di sini bersama ${partnerText}.`;
+      document.getElementById('dashCardPosName').textContent = `🗺️ Misi ${pos.name.split('—')[0]}`;
+      document.getElementById('dashSumTeam').textContent = `${user.group} (${user.class})`;
+      document.getElementById('dashSumAssignedPos').textContent = pos.name;
+      document.getElementById('dashSumPartnerGroup').textContent = partnerText;
+
+      document.getElementById('trailPostBadgeTop').textContent = `POS ${pos.posNumber}`;
+      document.getElementById('trailPostNameTop').textContent = pos.name;
+      document.getElementById('trailPostPartnerInfo').innerHTML = `Kelompok yang bertugas di pos ini: <strong>${user.group}</strong> dan <strong>${partnerText}</strong> (Masing-masing pos hanya 2 kelompok).`;
+
+      updateProgressAndBadges();
+      loadActivePostUI();
+      renderChatMessages();
+      renderTeacherTable();
+    }
+
+    function rerandomizePosAssignment() {
+      if (confirm('Apakah Anda ingin mengacak ulang pembagian 3 pos untuk 6 kelompok (masing-masing pos 2 kelompok)?')) {
+        appState.groupAssignments = generateBalancedAssignments();
+        if (appState.currentUser) {
+          appState.assignedPostIndex = appState.groupAssignments[appState.currentUser.group] || 0;
+        }
+        saveState();
+        initAppUI();
+        alert('Posisi pos untuk ke-6 kelompok telah berhasil diacak ulang secara merata!');
+      }
+    }
+
+    function addXP(amount, reason) {
+      appState.xp += amount;
+      document.getElementById('dashXP').textContent = `${appState.xp} XP`;
+      saveState();
+    }
+
+    function updateProgressAndBadges() {
+      let completedPoints = 0;
+      if (appState.levelsCompleted.level0) completedPoints += 15;
+      if (appState.levelsCompleted.level1) completedPoints += 20;
+      if (appState.levelsCompleted.level2) completedPoints += 20;
+      if (appState.levelsCompleted.level3) completedPoints += 20;
+      
+      const pos = appState.posts[appState.assignedPostIndex];
+      const isPostDone = appState.postAnswers[pos.id]?.isCorrect;
+      if (isPostDone) {
+        completedPoints += 15;
+        document.getElementById('dashStatusTrail').className = 'badge badge-success';
+        document.getElementById('dashStatusTrail').textContent = 'Selesai';
+        unlockBadge('trail');
+      }
+
+      if (appState.masterChallenge.completed) completedPoints += 10;
+
+      const pct = Math.min(100, completedPoints);
+      document.getElementById('dashProgressPercent').textContent = `${pct}% Selesai`;
+      document.getElementById('dashProgressBar').style.width = `${pct}%`;
+
+      if (appState.levelsCompleted.level1) unlockBadge('line');
+      if (appState.levelsCompleted.level2) unlockBadge('region');
+      if (appState.levelsCompleted.level3) unlockBadge('solver');
+      if (appState.masterChallenge.score >= 80) unlockBadge('master');
+
+      document.getElementById('resTotalScore').textContent = appState.xp;
+      document.getElementById('resPosStatusText').textContent = isPostDone ? '✓ Tuntas' : 'Sedang Dikerjakan';
+      document.getElementById('resPosStatusText').style.color = isPostDone ? '#10b981' : '#f59e0b';
+      document.getElementById('resPosNameSub').textContent = pos.name;
+      document.getElementById('resHintsUsed').textContent = appState.totalHintsUsed;
+      if (appState.currentUser) {
+        document.getElementById('resName').textContent = appState.currentUser.name;
+        document.getElementById('resClassGroup').textContent = `${appState.currentUser.group} - ${appState.currentUser.class}`;
+        document.getElementById('resAssignedPosName').textContent = pos.name;
+        document.getElementById('resStartTime').textContent = appState.currentUser.startTime || '-';
+      }
+      document.getElementById('resMasterScore').textContent = appState.masterChallenge.completed ? `${appState.masterChallenge.score} / 100` : 'Belum Selesai';
+    }
+
+    function unlockBadge(badgeKey) {
+      appState.badges[badgeKey] = true;
+      const el = document.getElementById(`badge-${badgeKey}`);
+      if (el) {
+        el.classList.remove('locked');
+        el.classList.add('earned');
+      }
+      saveState();
+    }
+
+    /* ============================================================
+       3. NAVIGATION & TABS
+       ============================================================ */
+    function switchSection(sectionId) {
+      if (sectionId === 'app' || sectionId === 'dashboard') {
+        if (!appState.currentUser) {
+          document.getElementById('section-welcome').style.display = 'block';
+          document.getElementById('section-app-container').style.display = 'none';
+          return;
+        }
+        document.getElementById('section-welcome').style.display = 'none';
+        document.getElementById('section-app-container').style.display = 'block';
+        switchTab('dashboard');
+      } else if (sectionId === 'teacher') {
+        document.getElementById('section-welcome').style.display = 'none';
+        document.getElementById('section-app-container').style.display = 'block';
+        switchTab('teacher');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(pane => pane.style.display = 'none');
+
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const targetPane = document.getElementById(`tab-${tabId}`);
+      if (targetPane) {
+        targetPane.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      if (tabId === 'level1') setTimeout(renderCanvasL1, 50);
+      if (tabId === 'level2') setTimeout(renderCanvasL2, 50);
+      if (tabId === 'level3') setTimeout(renderCanvasL3, 50);
+      if (tabId === 'mathtrail') setTimeout(renderCanvasPostMini, 50);
+      if (tabId === 'results') updateProgressAndBadges();
+      if (tabId === 'teacher') {
+        renderTeacherTable();
+        loadTeacherPostEditor();
+      }
+    }
+
+    /* ============================================================
+       4. LEVEL 0 — QUIZ & HINTS
+       ============================================================ */
+    function toggleHint(hintId) {
+      const box = document.getElementById(hintId);
+      if (box) {
+        box.classList.toggle('active');
+        appState.totalHintsUsed++;
+        saveState();
+      }
+    }
+
+    function checkLevel0Quiz() {
+      const selected = document.querySelector('input[name="l0_opt"]:checked');
+      const fb = document.getElementById('l0_feedback');
+      if (!selected) {
+        alert('Silakan pilih salah satu opsi jawaban!');
+        return;
+      }
+      if (selected.value === 'B') {
+        fb.className = 'feedback-banner correct';
+        fb.innerHTML = '🎉 <strong>LUAR BIASA BENAR!</strong><br>Paling banyak Rp60.000 menjadi <strong>5x + 3y ≤ 60</strong>, dan minimal 10 barang menjadi <strong>x + y ≥ 10</strong>, dengan <strong>x, y ≥ 0</strong>. Konsep batasan kamu sudah sangat kokoh!';
+        if (!appState.levelsCompleted.level0) {
+          appState.levelsCompleted.level0 = true;
+          addXP(100, 'Menyelesaikan Level 0');
+          document.getElementById('dashStatusL0').className = 'badge badge-success';
+          document.getElementById('dashStatusL0').textContent = 'Selesai';
+          updateProgressAndBadges();
+        }
+      } else {
+        fb.className = 'feedback-banner wrong';
+        fb.innerHTML = '❌ <strong>Jawaban Belum Tepat.</strong><br>Ingat: kata "paling banyak" menggunakan tanda ≤, bukan ≥. Gunakan tombol hint untuk meninjau kembali!';
+      }
+    }
+
+    /* ============================================================
+       5. LEVEL 1 — CANVAS GRAPH & LINE TYPE
+       ============================================================ */
+    let l1State = { a: 2, b: 1, c: 8, isDashed: false };
+
+    function setL1Preset(a, b, c, isDashed) {
+      l1State = { a, b, c, isDashed };
+      document.getElementById('l1_eq_label').textContent = `${a}x + ${b}y ${isDashed ? '<' : '≤'} ${c}`;
+      renderCanvasL1();
+    }
+
+    function checkL1LineType(type) {
+      const fb = document.getElementById('l1_type_feedback');
+      if (type === 'dashed') {
+        fb.style.color = '#10b981';
+        fb.textContent = '✅ TEPAT SEKALI! Tanda > adalah ketidaksamaan murni sehingga garis batas putus-putus.';
+        if (!appState.levelsCompleted.level1) {
+          appState.levelsCompleted.level1 = true;
+          addXP(100, 'Selesai Level 1');
+          unlockBadge('line');
+          document.getElementById('dashStatusL1').className = 'badge badge-success';
+          document.getElementById('dashStatusL1').textContent = 'Selesai';
+          updateProgressAndBadges();
+        }
+      } else {
+        fb.style.color = '#ef4444';
+        fb.textContent = '❌ Kurang tepat. Garis penuh hanya untuk tanda yang memuat tanda sama dengan (≤ atau ≥).';
+      }
+    }
+
+    function renderCanvasL1() {
+      const canvas = document.getElementById('canvasL1');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const originX = 50;
+      const originY = h - 50;
+      const scale = 30;
+
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let x = originX; x < w; x += scale) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = originY; y > 0; y -= scale) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(20, originY); ctx.lineTo(w - 20, originY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(originX, h - 20); ctx.lineTo(originX, 20); ctx.stroke();
+
+      ctx.fillStyle = '#475569';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('0', originX - 12, originY + 14);
+      ctx.fillText('X', w - 18, originY - 8);
+      ctx.fillText('Y', originX + 8, 25);
+
+      for (let i = 2; i <= 12; i += 2) {
+        const px = originX + i * scale;
+        if (px < w - 20) {
+          ctx.fillText(i.toString(), px - 4, originY + 16);
+        }
+        const py = originY - i * scale;
+        if (py > 20) {
+          ctx.fillText(i.toString(), originX - 18, py + 4);
+        }
+      }
+
+      const xIntercept = l1State.c / l1State.a;
+      const yIntercept = l1State.c / l1State.b;
+      const p1x = originX + xIntercept * scale;
+      const p1y = originY;
+      const p2x = originX;
+      const p2y = originY - yIntercept * scale;
+
+      ctx.strokeStyle = '#2563eb';
+      ctx.lineWidth = 3;
+      if (l1State.isDashed) {
+        ctx.setLineDash([8, 6]);
+      } else {
+        ctx.setLineDash([]);
+      }
+
+      ctx.beginPath();
+      const xStart = -0.5;
+      const yStart = (l1State.c - l1State.a * xStart) / l1State.b;
+      const xEnd = 13;
+      const yEnd = (l1State.c - l1State.a * xEnd) / l1State.b;
+
+      ctx.moveTo(originX + xStart * scale, originY - yStart * scale);
+      ctx.lineTo(originX + xEnd * scale, originY - yEnd * scale);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.arc(p1x, p1y, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(p2x, p2y, 5, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#1e3a8a';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText(`(${xIntercept.toFixed(1)}, 0)`, p1x - 10, p1y - 10);
+      ctx.fillText(`(0, ${yIntercept.toFixed(1)})`, p2x + 8, p2y - 4);
+    }
+
+    /* ============================================================
+       6. LEVEL 2 — FIND THE REGION (TEST POINT & SHADING)
+       ============================================================ */
+    let l2State = { a: 2, b: 3, c: 12, op: '<=' };
+
+    function setL2Inequality(a, b, c, op) {
+      l2State = { a, b, c, op };
+      const exp = document.getElementById('l2_explanation');
+      if (op === '<=') {
+        exp.innerHTML = `Menampilkan Daerah Penyelesaian untuk <strong>${a}x + ${b}y ≤ ${c}</strong>. Titik (0,0) diuji: ${a}(0) + ${b}(0) = 0 ≤ ${c} (BENAR), maka daerah yang memuat (0,0) diarsir!`;
+      } else {
+        exp.innerHTML = `Menampilkan Daerah Penyelesaian untuk <strong>${a}x + ${b}y ≥ ${c}</strong>. Titik (0,0) diuji: 0 ≥ ${c} (SALAH), maka daerah yang TIDAK memuat (0,0) diarsir!`;
+      }
+      renderCanvasL2();
+    }
+
+    function evaluateTestPoint() {
+      const x = parseFloat(document.getElementById('testPtX').value) || 0;
+      const y = parseFloat(document.getElementById('testPtY').value) || 0;
+      const val = 2 * x + 3 * y;
+      const resEl = document.getElementById('testPtResult');
+      
+      if (val <= 12) {
+        resEl.style.color = '#10b981';
+        resEl.innerHTML = `✅ Titik (${x}, ${y}): 2(${x}) + 3(${y}) = ${val} ≤ 12 adalah <strong>BENAR</strong>! Titik ini MERUPAKAN solusi.`;
+        if (!appState.levelsCompleted.level2) {
+          appState.levelsCompleted.level2 = true;
+          addXP(100, 'Menyelesaikan Level 2');
+          unlockBadge('region');
+          document.getElementById('dashStatusL2').className = 'badge badge-success';
+          document.getElementById('dashStatusL2').textContent = 'Selesai';
+          updateProgressAndBadges();
+        }
+      } else {
+        resEl.style.color = '#ef4444';
+        resEl.innerHTML = `❌ Titik (${x}, ${y}): 2(${x}) + 3(${y}) = ${val} ≤ 12 adalah <strong>SALAH</strong>! Titik ini berada di luar daerah penyelesaian.`;
+      }
+    }
+
+    function renderCanvasL2() {
+      const canvas = document.getElementById('canvasL2');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const originX = 50;
+      const originY = h - 50;
+      const scale = 26;
+
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let x = originX; x < w; x += scale) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = originY; y > 0; y -= scale) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(originX, 20, w - originX - 20, originY - 20);
+      ctx.clip();
+
+      const a = l2State.a, b = l2State.b, c = l2State.c;
+      const x0 = 0;
+      const y0 = (c - a * x0) / b;
+
+      ctx.fillStyle = 'rgba(13, 148, 136, 0.28)';
+      ctx.beginPath();
+
+      if (l2State.op === '<=') {
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(originX, originY - Math.max(0, y0) * scale);
+        ctx.lineTo(originX + (c / a) * scale, originY);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.moveTo(originX + (c / a) * scale, originY);
+        ctx.lineTo(w, originY);
+        ctx.lineTo(w, 0);
+        ctx.lineTo(originX, 0);
+        ctx.lineTo(originX, originY - y0 * scale);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(20, originY); ctx.lineTo(w - 20, originY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(originX, h - 20); ctx.lineTo(originX, 20); ctx.stroke();
+
+      ctx.fillStyle = '#475569';
+      ctx.font = '10px sans-serif';
+      for (let i = 2; i <= 14; i += 2) {
+        ctx.fillText(i.toString(), originX + i * scale - 4, originY + 14);
+        ctx.fillText(i.toString(), originX - 16, originY - i * scale + 4);
+      }
+
+      ctx.strokeStyle = '#0f766e';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(originX - 1 * scale, originY - ((c - a * -1) / b) * scale);
+      ctx.lineTo(originX + 10 * scale, originY - ((c - a * 10) / b) * scale);
+      ctx.stroke();
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath(); ctx.arc(originX, originY, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#92400e';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('(0,0) Titik Uji', originX + 8, originY - 6);
+    }
+
+    /* ============================================================
+       7. LEVEL 3 — FIND THE INTERSECTION
+       ============================================================ */
+    function completeLevel3() {
+      if (!appState.levelsCompleted.level3) {
+        appState.levelsCompleted.level3 = true;
+        addXP(150, 'Menyelesaikan Level 3 SPtLDV');
+        unlockBadge('solver');
+        document.getElementById('dashStatusL3').className = 'badge badge-success';
+        document.getElementById('dashStatusL3').textContent = 'Selesai';
+        updateProgressAndBadges();
+      }
+      alert('Selamat! Kamu telah menguasai irisan SPtLDV! Sekarang saatnya menyelesaikan misi di pos sekolah kelompokmu!');
+      switchTab('mathtrail');
+    }
+
+    function renderCanvasL3() {
+      const canvas = document.getElementById('canvasL3');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const originX = 50;
+      const originY = h - 50;
+      const scale = 24;
+
+      const showL1 = document.getElementById('chkL3Line1').checked;
+      const showL2 = document.getElementById('chkL3Line2').checked;
+      const showInt = document.getElementById('chkL3Intersection').checked;
+
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let x = originX; x < w; x += scale) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = originY; y > 0; y -= scale) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      if (showL1) {
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(originX, originY - 10 * scale);
+        ctx.lineTo(originX + 10 * scale, originY);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      if (showL2) {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(originX, originY - 14 * scale);
+        ctx.lineTo(originX + 7 * scale, originY);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      if (showInt && showL1 && showL2) {
+        ctx.fillStyle = 'rgba(13, 148, 136, 0.45)';
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(originX + 7 * scale, originY);
+        ctx.lineTo(originX + 4 * scale, originY - 6 * scale);
+        ctx.lineTo(originX, originY - 10 * scale);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#0d9488';
+        [[0,0], [7,0], [4,6], [0,10]].forEach(([cx, cy]) => {
+          ctx.beginPath();
+          ctx.arc(originX + cx * scale, originY - cy * scale, 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.fillStyle = '#0f766e';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText('(4, 6) Titik Potong', originX + 4 * scale + 8, originY - 6 * scale);
+      }
+
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(20, originY); ctx.lineTo(w - 20, originY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(originX, h - 20); ctx.lineTo(originX, 20); ctx.stroke();
+
+      if (showL1) {
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(originX, originY - 10 * scale);
+        ctx.lineTo(originX + 10 * scale, originY);
+        ctx.stroke();
+      }
+
+      if (showL2) {
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(originX, originY - 14 * scale);
+        ctx.lineTo(originX + 7 * scale, originY);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#475569';
+      ctx.font = '10px sans-serif';
+      for (let i = 2; i <= 14; i += 2) {
+        ctx.fillText(i.toString(), originX + i * scale - 4, originY + 14);
+        ctx.fillText(i.toString(), originX - 16, originY - i * scale + 4);
+      }
+    }
+
+    /* ============================================================
+       8. MATH TRAIL POS (1 KELOMPOK = 1 POS DARI 3 POS)
+       ============================================================ */
+    function loadActivePostUI() {
+      const pos = appState.posts[appState.assignedPostIndex];
+      if (!pos) return;
+
+      document.getElementById('activePostBadge').textContent = `POS ${pos.posNumber}`;
+      document.getElementById('activePostLocation').textContent = `Lokasi: ${pos.location}`;
+      document.getElementById('activePostTitle').textContent = pos.name;
+      document.getElementById('activePostDesc').textContent = pos.description;
+      document.getElementById('postChallengeQuestion').textContent = pos.question;
+
+      const statusBadge = document.getElementById('activePostStatusBadge');
+      const isDone = appState.postAnswers[pos.id]?.isCorrect;
+      if (isDone) {
+        statusBadge.innerHTML = '<span class="badge badge-success">✓ Misi Pos Selesai</span>';
+      } else {
+        statusBadge.innerHTML = '<span class="badge badge-warning">🟡 Sedang Dikerjakan</span>';
+      }
+
+      document.getElementById('postHint1Box').textContent = pos.hint1;
+      document.getElementById('postHint2Box').textContent = pos.hint2;
+      document.getElementById('postHint3Box').textContent = pos.hint3;
+      ['postHint1Box', 'postHint2Box', 'postHint3Box'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+
+      const fb = document.getElementById('postFeedbackBanner');
+      if (isDone) {
+        fb.className = 'feedback-banner correct';
+        fb.innerHTML = `🎉 <strong>MISSION COMPLETE!</strong><br>Jawaban benar: <strong>${pos.correctKey}</strong>.<br>Pembahasan: ${pos.hint3}`;
+      } else {
+        fb.className = 'feedback-banner';
+        fb.style.display = 'none';
+      }
+
+      const previewArea = document.getElementById('postProofPreviewArea');
+      if (appState.postAnswers[pos.id]?.proofData) {
+        previewArea.innerHTML = `
+          <div style="text-align: center;">
+            <img src="${appState.postAnswers[pos.id].proofData}" style="max-height: 120px; border-radius: 6px; margin-bottom: 6px;" alt="Bukti">
+            <div style="font-weight: 600; font-size: 0.82rem;">${appState.postAnswers[pos.id].proofCaption || 'Bukti Lapangan'}</div>
+          </div>
+        `;
+      } else {
+        previewArea.innerHTML = 'Belum ada bukti yang diunggah untuk pos ini.';
+      }
+
+      renderCanvasPostMini();
+    }
+
+    function requestPostHint(hintNumber) {
+      const box = document.getElementById(`postHint${hintNumber}Box`);
+      if (box) {
+        box.classList.toggle('active');
+        appState.totalHintsUsed++;
+        saveState();
+        updateProgressAndBadges();
+      }
+    }
+
+    function submitPostAnswer() {
+      const pos = appState.posts[appState.assignedPostIndex];
+      const ansInput = document.getElementById('postStudentAnswer').value.trim();
+      const fb = document.getElementById('postFeedbackBanner');
+
+      if (!ansInput) {
+        alert('Ketikkan jawaban analisismu terlebih dahulu!');
+        return;
+      }
+
+      const isCorrect = (ansInput.toLowerCase() === pos.correctKey.toLowerCase()) || 
+                        (ansInput.includes(pos.correctKey));
+
+      if (isCorrect) {
+        fb.className = 'feedback-banner correct';
+        fb.innerHTML = `🎉 <strong>MISSION COMPLETE!</strong><br>Jawaban tepat: <strong>${pos.correctKey}</strong>.<br><em>Konsep Matematika:</em> ${pos.hint3}`;
+        
+        if (!appState.postAnswers[pos.id]) {
+          appState.postAnswers[pos.id] = {};
+        }
+        appState.postAnswers[pos.id].isCorrect = true;
+        appState.postAnswers[pos.id].answer = ansInput;
+
+        addXP(150, `Menyelesaikan Misi di ${pos.name}`);
+        loadActivePostUI();
+        updateProgressAndBadges();
+      } else {
+        fb.className = 'feedback-banner wrong';
+        fb.innerHTML = `❌ <strong>Jawaban Belum Tepat.</strong><br>Jangan menyerah! Coba buka tombol petunjuk (Hint) atau tanyakan guru via tombol <strong>💬 Tanya Guru via Chat</strong>.`;
+      }
+    }
+
+    function handleProofUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const pos = appState.posts[appState.assignedPostIndex];
+        const caption = document.getElementById('postProofCaption').value.trim() || file.name;
+
+        if (!appState.postAnswers[pos.id]) {
+          appState.postAnswers[pos.id] = {};
+        }
+        appState.postAnswers[pos.id].proofData = event.target.result;
+        appState.postAnswers[pos.id].proofCaption = caption;
+        appState.postAnswers[pos.id].proofTimestamp = new Date().toLocaleString('id-ID');
+
+        saveState();
+        loadActivePostUI();
+        alert('Foto bukti aktivitas berhasil disimpan di perangkat ini!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderCanvasPostMini() {
+      const canvas = document.getElementById('canvasPostMini');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const pos = appState.posts[appState.assignedPostIndex];
+      const originX = 40;
+      const originY = h - 35;
+      const scale = 20;
+
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(15, originY); ctx.lineTo(w - 15, originY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(originX, h - 15); ctx.lineTo(originX, 15); ctx.stroke();
+
+      ctx.fillStyle = 'rgba(13, 148, 136, 0.3)';
+      ctx.beginPath();
+      ctx.moveTo(originX, originY);
+      ctx.lineTo(originX + 8 * scale, originY);
+      ctx.lineTo(originX + 4 * scale, originY - 5 * scale);
+      ctx.lineTo(originX, originY - 6 * scale);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = '#0d9488';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(originX, originY - 6 * scale);
+      ctx.lineTo(originX + 4 * scale, originY - 5 * scale);
+      ctx.lineTo(originX + 8 * scale, originY);
+      ctx.stroke();
+
+      ctx.fillStyle = '#0f766e';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillText(`Daerah Penyelesaian ${pos.name.split('—')[0]}`, originX + 20, originY - 30);
+    }
+
+    /* ============================================================
+       9. LIVE CHAT TUTOR GURU (DARING VIA CHAT, GURU TIDAK MENDATANGI)
+       ============================================================ */
+    function openTutorModal() {
+      renderChatMessages();
+      document.getElementById('tutorModal').classList.add('active');
+    }
+
+    function closeTutorModal() {
+      document.getElementById('tutorModal').classList.remove('active');
+    }
+
+    function renderChatMessages() {
+      const studentBox = document.getElementById('studentChatMessages');
+      const teacherBox = document.getElementById('teacherChatMessages');
+      
+      const renderTo = (container) => {
+        if (!container) return;
+        container.innerHTML = '';
+        appState.chatMessages.forEach(msg => {
+          const isMe = (msg.sender === 'student');
+          const bubble = document.createElement('div');
+          bubble.className = `chat-bubble ${isMe ? 'student' : 'teacher'}`;
+          bubble.innerHTML = `
+            <div><strong>${msg.senderName}:</strong> ${msg.text}</div>
+            <div class="chat-meta">${msg.time}</div>
+          `;
+          container.appendChild(bubble);
+        });
+        container.scrollTop = container.scrollHeight;
+      };
+
+      renderTo(studentBox);
+      renderTo(teacherBox);
+    }
+
+    function handleSendStudentChat(e) {
+      e.preventDefault();
+      const input = document.getElementById('studentChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const userName = appState.currentUser ? `${appState.currentUser.group} (${appState.currentUser.name})` : 'Siswa';
+      const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+      appState.chatMessages.push({
+        sender: 'student',
+        senderName: userName,
+        text: text,
+        time: now
+      });
+
+      input.value = '';
+      saveState();
+      renderChatMessages();
+
+      // Jawaban bimbingan pengajar otomatis jika guru belum membuka panel
+      setTimeout(() => {
+        let autoReply = 'Pertanyaan kelompokmu telah diterima Guru. Tetap amati variabel x dan y serta batasan anggaran/kapasitas di posmu ya!';
+        const lower = text.toLowerCase();
+        if (lower.includes('garis')) {
+          autoReply = 'Tips Guru: Ingat untuk menentukan titik potong sumbu-X (saat y = 0) dan titik potong sumbu-Y (saat x = 0). Tarik garis di antara kedua titik tersebut.';
+        } else if (lower.includes('titik uji') || lower.includes('daerah')) {
+          autoReply = 'Tips Guru: Gunakan titik uji termudah yaitu (0,0). Masukkan x=0 dan y=0 ke pertidaksamaan. Jika hasilnya benar, arsir bagian yang memuat (0,0)!';
+        } else if (lower.includes('variabel')) {
+          autoReply = 'Tips Guru: Variabel x dan y mewakili kuantitas dua barang yang sedang kamu amati di posmu (misalnya porsi makanan dan minuman).';
+        }
+
+        appState.chatMessages.push({
+          sender: 'teacher',
+          senderName: 'Guru Matematika',
+          text: autoReply,
+          time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+        });
+        saveState();
+        renderChatMessages();
+      }, 1200);
+    }
+
+    function handleTeacherReply(e) {
+      e.preventDefault();
+      const input = document.getElementById('teacherReplyInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appState.chatMessages.push({
+        sender: 'teacher',
+        senderName: 'Guru Matematika',
+        text: text,
+        time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      });
+
+      input.value = '';
+      saveState();
+      renderChatMessages();
+    }
+
+    /* ============================================================
+       10. PRESENTASI & PRODUK AKHIR & REFLEKSI
+       ============================================================ */
+    function handlePresUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        appState.presentation.fileName = file.name;
+      }
+    }
+
+    function savePresentationData() {
+      const title = document.getElementById('presTitle').value.trim();
+      const members = document.getElementById('presMembers').value.trim();
+      const link = document.getElementById('presLink').value.trim();
+
+      appState.presentation.title = title;
+      appState.presentation.members = members;
+      appState.presentation.link = link;
+      appState.presentation.uploadedAt = new Date().toLocaleString('id-ID');
+
+      addXP(80, 'Mengunggah Presentasi');
+      saveState();
+
+      const notice = document.getElementById('presStatusNotice');
+      notice.style.display = 'block';
+      notice.textContent = '🎉 Data presentasi kelompok berhasil disimpan!';
+      document.getElementById('resPresStatus').className = 'badge badge-success';
+      document.getElementById('resPresStatus').textContent = 'Tersimpan';
+      updateProgressAndBadges();
+    }
+
+    function handleProdUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        appState.finalProduct.fileName = file.name;
+      }
+    }
+
+    function saveProductData() {
+      const type = document.getElementById('prodType').value;
+      const desc = document.getElementById('prodDesc').value.trim();
+      const url = document.getElementById('prodUrl').value.trim();
+
+      appState.finalProduct.type = type;
+      appState.finalProduct.desc = desc;
+      appState.finalProduct.url = url;
+      appState.finalProduct.uploadedAt = new Date().toLocaleString('id-ID');
+
+      addXP(100, 'Mengunggah Produk Akhir');
+      saveState();
+
+      const notice = document.getElementById('prodStatusNotice');
+      notice.style.display = 'block';
+      notice.textContent = '🚀 Produk akhir berhasil dikumpulkan ke portofolio!';
+      document.getElementById('resProdStatus').className = 'badge badge-success';
+      document.getElementById('resProdStatus').textContent = 'Terkumpul';
+      updateProgressAndBadges();
+    }
+
+    function handleSaveReflection(e) {
+      e.preventDefault();
+      appState.reflection = {
+        q1: document.getElementById('refQ1').value.trim(),
+        q2: document.getElementById('refQ2').value.trim(),
+        q3: document.getElementById('refQ3').value.trim(),
+        q4: document.getElementById('refQ4').value.trim(),
+        q5: document.getElementById('refQ5').value.trim(),
+        q6: document.getElementById('refQ6').value.trim(),
+        q7: document.getElementById('refQ7').value.trim(),
+        savedAt: new Date().toLocaleString('id-ID')
+      };
+
+      addXP(100, 'Mengisi Refleksi Belajar');
+      saveState();
+
+      const notice = document.getElementById('reflectionSaveNotice');
+      notice.style.display = 'block';
+      document.getElementById('resRefStatus').className = 'badge badge-success';
+      document.getElementById('resRefStatus').textContent = 'Selesai Diisi';
+      updateProgressAndBadges();
+    }
+
+    /* ============================================================
+       11. MASTER CHALLENGE EVALUATION
+       ============================================================ */
+    function evaluateMasterChallenge() {
+      const q1 = document.querySelector('input[name="mc_q1"]:checked')?.value;
+      const q2 = document.querySelector('input[name="mc_q2"]:checked')?.value;
+      const q3 = document.querySelector('input[name="mc_q3"]:checked')?.value;
+      const q4 = document.getElementById('mc_q4_input').value.trim();
+      const q5 = document.querySelector('input[name="mc_q5"]:checked')?.value;
+
+      if (!q1 || !q2 || !q3 || !q4 || !q5) {
+        alert('Mohon jawab seluruh 5 pertanyaan evaluasi!');
+        return;
+      }
+
+      let score = 0;
+      if (q1 === 'B') score += 20;
+      if (q2 === 'B') score += 20;
+      if (q3 === 'A') score += 20;
+      if (q4 === '5') score += 20;
+      if (q5 === 'SALAH') score += 20;
+
+      appState.masterChallenge.score = score;
+      appState.masterChallenge.completed = true;
+
+      const notice = document.getElementById('challengeResultNotice');
+      document.getElementById('mcScoreDisplay').textContent = `Nilai: ${score} / 100`;
+
+      if (score >= 80) {
+        notice.className = 'feedback-banner correct';
+        notice.innerHTML = `🎉 <strong>LUAR BIASA! NILAI: ${score}/100</strong><br>Kamu resmi dinobatkan sebagai <strong>Master of SPtLDV</strong>! Lencana emas telah ditambahkan ke profilmu.`;
+        unlockBadge('master');
+        addXP(200, 'Master Challenge Sempurna');
+      } else {
+        notice.className = 'feedback-banner wrong';
+        notice.innerHTML = `<strong>NILAI KAMU: ${score}/100</strong><br>Coba lagi! Gunakan petunjuk yang tersedia pada tiap nomor untuk memperbaiki jawabanmu.`;
+      }
+
+      saveState();
+      updateProgressAndBadges();
+    }
+
+    /* ============================================================
+       12. TEACHER DASHBOARD & DATA MANAGEMENT
+       ============================================================ */
+    function renderTeacherTable() {
+      const tbody = document.getElementById('teacherGroupTableBody');
+      const posDistCards = document.getElementById('teacherPosDistributionCards');
+      if (!tbody || !posDistCards) return;
+
+      tbody.innerHTML = '';
+      posDistCards.innerHTML = '';
+
+      appState.posts.forEach((p, idx) => {
+        const groupsInThisPos = [];
+        for (let g = 1; g <= 6; g++) {
+          const gName = `Kelompok ${g}`;
+          if (appState.groupAssignments[gName] === idx) {
+            groupsInThisPos.push(gName);
+          }
+        }
+
+        const card = document.createElement('div');
+        card.style.cssText = 'background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 14px;';
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="badge badge-accent">POS ${p.posNumber}</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">${groupsInThisPos.length} Kelompok</span>
+          </div>
+          <strong style="color: var(--primary-dark); font-size: 0.95rem; display: block; margin-bottom: 4px;">${p.name.split('—')[1] || p.name}</strong>
+          <div style="font-size: 0.82rem; color: #475569; margin-bottom: 8px;">Lokasi: ${p.location}</div>
+          <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 0.82rem;">
+            <strong>Kelompok Bertugas:</strong><br>
+            ${groupsInThisPos.map(g => `<span class="badge badge-primary" style="margin: 2px;">${g}</span>`).join('')}
+          </div>
+        `;
+        posDistCards.appendChild(card);
+      });
+
+      const u = appState.currentUser;
+      const pos = appState.posts[appState.assignedPostIndex];
+      const isPostDone = appState.postAnswers[pos.id]?.isCorrect;
+
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--border)';
+      tr.innerHTML = `
+        <td style="padding: 10px; font-weight: 700; color: var(--primary);">${u ? u.group : 'Kelompok 1'}</td>
+        <td style="padding: 10px;">${u ? u.name : 'Siswa Contoh'}</td>
+        <td style="padding: 10px;">${u ? u.class : 'X-1'}</td>
+        <td style="padding: 10px; font-weight: 600; color: var(--accent);">${pos.name.split('—')[0]} (${pos.location})</td>
+        <td style="padding: 10px;"><span class="badge ${isPostDone ? 'badge-success' : 'badge-warning'}">${isPostDone ? '✓ Selesai' : '🟡 Dikerjakan'}</span></td>
+        <td style="padding: 10px; font-weight: 700;">${appState.masterChallenge.completed ? appState.masterChallenge.score : '-'}</td>
+        <td style="padding: 10px;">${appState.totalHintsUsed}</td>
+        <td style="padding: 10px;">${appState.reflection ? '✅ Sudah' : '⏳ Belum'}</td>
+      `;
+      tbody.appendChild(tr);
+
+      renderChatMessages();
+    }
+
+    function loadTeacherPostEditor() {
+      const idx = parseInt(document.getElementById('teacherSelectPost').value, 10);
+      const post = appState.posts[idx];
+      if (post) {
+        document.getElementById('tEditPostTitle').value = post.name;
+        document.getElementById('tEditPostLocation').value = post.location;
+        document.getElementById('tEditPostDesc').value = post.description;
+        document.getElementById('tEditPostKey').value = post.correctKey;
+      }
+    }
+
+    function saveTeacherPostChanges() {
+      const idx = parseInt(document.getElementById('teacherSelectPost').value, 10);
+      if (appState.posts[idx]) {
+        appState.posts[idx].name = document.getElementById('tEditPostTitle').value;
+        appState.posts[idx].location = document.getElementById('tEditPostLocation').value;
+        appState.posts[idx].description = document.getElementById('tEditPostDesc').value;
+        appState.posts[idx].correctKey = document.getElementById('tEditPostKey').value;
+        saveState();
+        alert('Data pos berhasil diperbarui!');
+        initAppUI();
+      }
+    }
+
+    /* JSON EXPORT & IMPORT */
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `SPtLDV_MathTrail_3Pos_${appState.currentUser?.group || 'Data'}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+    }
+
+    function importDataJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          appState = Object.assign(appState, parsed);
+          saveState();
+          alert('Data pembelajaran berhasil diimpor!');
+          location.reload();
+        } catch (err) {
+          alert('File JSON tidak valid!');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function copyGeogebraSyntax() {
+      const syntax = '2x + y <= 10 && x + 2y <= 8 && x >= 0 && y >= 0';
+      navigator.clipboard.writeText(syntax).then(() => {
+        const notice = document.getElementById('copyNotice');
+        notice.style.display = 'block';
+        setTimeout(() => { notice.style.display = 'none'; }, 2500);
+      });
+    }
+
+    // Auto-init on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedState();
+      if (appState.currentUser) {
+        document.getElementById('studentNameInput').value = appState.currentUser.name;
+        document.getElementById('studentClassInput').value = appState.currentUser.class;
+        document.getElementById('studentGroupInput').value = appState.currentUser.group;
+        initAppUI();
+        switchSection('app');
+      }
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a421dee35e224083',t:'MTc5MDU4OTMwNw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
